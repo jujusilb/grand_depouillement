@@ -1211,13 +1211,14 @@ class Application(tk.Tk):
                 return
             groupes.append(("Conseil régional", reg, "régional"))
         elif t == "Européennes":
-            groupes.append(("Listes nationales", "FE", "européen"))
+            groupes.append(("Listes nationales", "FR", "européen"))
         self.intertitre(f, "Listes et colistiers")
         arbre = ttk.Treeview(f, columns=("info",), show="tree headings", height=12)
         arbre.heading("#0", text="Liste / candidat"); arbre.heading("info", text="")
         arbre.column("#0", width=245); arbre.column("info", width=62, anchor="e")
         arbre.pack(anchor="w", padx=12, fill="x")
         self.listes_chargees = {}
+        nuance_de = {}                 # (une liste de l'arbre → son code de nuance, pour l'expliquer quand on la choisit)
         n = 0
         for titre, code, conseil in groupes[:8]:
             l = d.listes(s, code, conseil)
@@ -1225,10 +1226,12 @@ class Application(tk.Tk):
                 continue
             g_ = arbre.insert("", "end", text=titre, open=len(groupes) == 1)
             for row in l.itertuples():
-                it = arbre.insert(g_, "end", text=f"{row.numero_panneau}. {court(row.libelle_liste, 30)} — {row.tete or ''}",
+                nuance = f"[{row.nuance}] " if isinstance(row.nuance, str) else ""
+                it = arbre.insert(g_, "end", text=f"{row.numero_panneau}. {nuance}{court(row.libelle_liste, 30)} — {row.tete or ''}",
                                   values=(f"{row.noms} noms",))
                 arbre.insert(it, "end", text="…")
                 self.listes_chargees[it] = (s, code, row.numero_panneau, conseil)
+                nuance_de[it] = row.nuance if isinstance(row.nuance, str) else None
                 n += 1
         if n == 0:
             arbre.destroy()
@@ -1245,7 +1248,16 @@ class Application(tk.Tk):
                     arbre.insert(it, "end", text=f"{sec}{int(c.ordre) if c.ordre == c.ordre else ''}. {c.prenom} {c.nom}",
                                  values=("tête" if c.tete_de_liste else c.sexe,))
         arbre.bind("<<TreeviewOpen>>", ouvrir)
-        ttk.Label(f, text="Déplie une liste pour voir tous ses colistiers (fichiers officiels du ministère de l'Intérieur).",
+        # la nuance de la liste choisie, en clair (« [LUG] » → « LUG : Liste d'union de la gauche »)
+        sens = ttk.Label(f, text="", wraplength=self.lt)
+        sens.pack(anchor="w", padx=14, pady=(2, 0))
+
+        def expliquer(_):
+            code = nuance_de.get(arbre.focus())
+            sens.config(text=f"{code} : {d.explication(code) or 'nuance sans explication officielle'}" if code else "")
+        arbre.bind("<<TreeviewSelect>>", expliquer)
+        ttk.Label(f, text="Déplie une liste pour voir tous ses colistiers (fichiers officiels du ministère de l'Intérieur). "
+                          "Entre crochets : la nuance de la liste ; choisis une liste pour la voir en clair.",
                   style="Gris.TLabel", font=theme.POLICE_PETITE, wraplength=self.lt).pack(anchor="w", padx=14, pady=(2, 0))
 
     # ------------------------------------------------------------------ la carte : clic = fiche de la zone

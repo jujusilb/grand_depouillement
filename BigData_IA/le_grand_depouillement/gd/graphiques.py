@@ -744,7 +744,9 @@ def hemicycle(fig, ctx):
     fig.tight_layout()
     ronds_qui_se_touchent(fig, ax, n, points, contour=0.08)
     premier = g.sort_values("sieges", ascending=False).iloc[0]
-    return {"legende": [(f"{court(q, 22)} — {int(k)}", c) for q, k, c in zip(g["groupe"], g["sieges"], g["couleur"])],
+    # une liste ou un candidat : sa nuance devant (« LUG · Julien BAYOU — 53 ») ; l'info-bulle de la légende l'explique
+    devant = [f"{n} · " if reg != "Nuance" and isinstance(n, str) and n and n != q else "" for n, q in zip(nuance, g["groupe"])]
+    return {"legende": [(f"{v}{court(q, 22)} — {int(k)}", c) for v, q, k, c in zip(devant, g["groupe"], g["sieges"], g["couleur"])],
             "kpi": [(str(int(premier["sieges"])), court(premier["groupe"], 16)), (str(majorite), "majorité absolue"), (str(len(g)), "groupes")],
             "lecture": a["note"]}
 
