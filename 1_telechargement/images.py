@@ -23,6 +23,8 @@ import pandas as pd
 import requests
 from PIL import Image
 
+from telecharger import annonce, signe   # (les signes de vie pour la fenêtre d'installation)
+
 ICI = Path(__file__).resolve().parent
 DATA = ICI.parent / "donnees" / "appli"
 ENTETE = {"User-Agent": "LeGrandDepouillement/1.0 (installation ; https://github.com/jujusilb/grand_depouillement)"}
@@ -62,6 +64,7 @@ def serie(nom, travail, pause, **reduire):
     """travail : [(adresse, fichier)] ; rend le nombre d'échecs."""
     reste = [(a, f) for a, f in travail if a and not f.exists()]
     print(f"   {nom} : {len(travail) - len(reste)} déjà là, {len(reste)} à télécharger", flush=True)
+    annonce(f"{nom[0].upper()}{nom[1:]} : {len(travail) - len(reste)} déjà là, {len(reste)} à télécharger")
     rates = 0
     for i, (adresse, fichier) in enumerate(reste, 1):
         contenu = lire(adresse)
@@ -70,6 +73,7 @@ def serie(nom, travail, pause, **reduire):
         except Exception:
             contenu = None
         rates += contenu is None
+        signe(i, len(reste), nom, forcer=i == len(reste))
         if i % 100 == 0:
             print(f"      {i} / {len(reste)}", flush=True)
         time.sleep(pause)
@@ -80,6 +84,7 @@ def vignettes_commons(fichiers):
     """{nom de fichier Commons : adresse de sa vignette de 250 px} (l'API, par paquets de 50)."""
     adresses = {}
     fichiers = sorted(set(f for f in fichiers if f))
+    annonce(f"Recherche des {len(fichiers)} photos sur Wikimedia Commons")
     for i in range(0, len(fichiers), 50):
         q = urllib.parse.urlencode({"action": "query", "format": "json", "prop": "imageinfo", "iiprop": "url",
                                     "iiurlwidth": 250, "titles": "|".join("File:" + f for f in fichiers[i:i + 50])})
@@ -91,6 +96,7 @@ def vignettes_commons(fichiers):
         for page in r["query"]["pages"].values():
             if "imageinfo" in page:
                 adresses[retour.get(page["title"], page["title"]).removeprefix("File:")] = page["imageinfo"][0].get("thumburl")
+        signe(min(i + 50, len(fichiers)), len(fichiers), "photos trouvées sur Wikimedia Commons")
         time.sleep(0.5)
     return adresses
 

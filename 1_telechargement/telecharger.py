@@ -7,6 +7,7 @@ telecharger.py — Télécharge les sources listées dans sources.csv (adresse o
 Un fichier déjà là, à la bonne taille, n'est pas retéléchargé. Un téléchargement coupé reprend où il s'était arrêté.
 """
 import csv
+import os
 import sys
 import time
 from pathlib import Path
@@ -17,6 +18,21 @@ ICI = Path(__file__).resolve().parent
 RACINE = ICI.parent                         # (la racine du dépôt : les destinations de sources.csv partent d'ici)
 SOURCES = ICI / "sources.csv"
 ENTETE = {"User-Agent": "LeGrandDepouillement/1.0 (installation, donnees electorales ouvertes)"}
+# les signes de vie pour la fenêtre d'installation (4_installation/installateur.py, qui pose GD_PROGRESSION) :
+#   « @@ fait total texte » fait avancer la barre de l'étape ; « @@> texte » dit ce qui se fait
+SIGNES = bool(os.environ.get("GD_PROGRESSION"))
+_dernier = [0.0]
+
+
+def signe(fait, total, texte="", forcer=False):
+    if SIGNES and (forcer or time.time() - _dernier[0] > 0.3):
+        _dernier[0] = time.time()
+        print(f"@@ {int(fait)} {int(total)} {texte}", flush=True)
+
+
+def annonce(texte):
+    if SIGNES:
+        print(f"@@> {texte}", flush=True)
 
 
 def sources(phase=None):
@@ -29,7 +45,7 @@ def taille_lisible(n):
     return f"{n / 1e9:.1f} Go" if n >= 1e9 else f"{n / 1e6:.0f} Mo" if n >= 1e6 else f"{n / 1e3:.0f} Ko"
 
 
-def telecharger(url, cible, attendue=None, essais=5):
+def telecharger(url, cible, attendue=None, essais=5, nom=None):
     """Télécharge url dans cible (reprise si le fichier .partiel existe). Rend True si le fichier est complet."""
     cible.parent.mkdir(parents=True, exist_ok=True)
     if cible.exists() and (not attendue or cible.stat().st_size == attendue):
@@ -51,7 +67,9 @@ def telecharger(url, cible, attendue=None, essais=5):
                     for bloc in r.iter_content(1 << 20):
                         f.write(bloc)
                         recu += len(bloc)
-                        if total and time.time() - t0 > 2:
+                        if total:
+                            signe(recu, total, nom or cible.name)
+                        if total and not SIGNES and time.time() - t0 > 2:
                             print(f"\r      {recu * 100 // total:3d} % de {taille_lisible(total)}", end="", flush=True)
                 print("\r" + " " * 40 + "\r", end="")
             break
@@ -76,7 +94,8 @@ def main(phase=None, liste=None):
         cible = RACINE / l["destination"]
         if cible.exists():
             continue
-        print(f"   [{i}/{len(liste)}] {l['destination']} ({taille_lisible(int(l['taille'] or 0))})")
+        print(f"   [{i}/{len(liste)}] {l['destination']} ({taille_lisible(int(float(l['taille'] or 0)))})")
+        annonce(f"Fichier {i} sur {len(liste)} : {cible.name}")
         if not telecharger(l["url"], cible, int(float(l["taille"])) if l["taille"] else None):
             rates.append(l["destination"])
     if rates:

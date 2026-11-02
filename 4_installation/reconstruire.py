@@ -115,6 +115,8 @@ def main():
             print(f"[{i}/{len(ETAPES)}] {nom} : déjà fait")
         else:
             print(f"\n[{i}/{len(ETAPES)}] {nom}… ({time.strftime('%H:%M')})", flush=True)
+            telecharger.annonce(f"Étape {i} sur {len(ETAPES)} : {nom}")
+            telecharger.signe(i - 1, len(ETAPES), nom, forcer=True)
             ok = lancer(quoi) if isinstance(quoi, Path) else quoi() is not False
             if not ok or not fait(ETAPES[i - 1]):
                 print(f"\nÉCHEC à l'étape « {nom} ». Relancer INSTALLMOI.bat reprendra ici.")

@@ -35,10 +35,12 @@ def main():
             print(f"   {a['name']} : déjà là")
             continue
         print(f"   {a['name']} ({telecharger.taille_lisible(a['size'])})")
+        telecharger.annonce(f"{a['name']} ({telecharger.taille_lisible(a['size'])}) depuis GitHub")
         if not telecharger.telecharger(a["browser_download_url"], cible, a["size"]):
             print(f"Impossible de télécharger {a['name']}. Relancer INSTALLMOI.bat reprendra ici.")
             return 1
         if cible.suffix == ".zip":
+            telecharger.annonce("Décompression de la base")
             with zipfile.ZipFile(cible) as z:
                 z.extractall(DATA)
             cible.unlink()                 # (le moins de place possible)
