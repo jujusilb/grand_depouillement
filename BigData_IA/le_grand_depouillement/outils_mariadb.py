@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 
 MYSQL = Path(os.environ.get("GD_MYSQL", r"C:\xampp\mysql\bin\mysql.exe"))     # (GD_MYSQL : le MariaDB portable de l'installation)
+CONNEXION = ["-u", "root", "-h", "127.0.0.1", "-P", os.environ.get("GD_MARIADB_PORT", "3306")]   # (en TCP : XAMPP ou le portable)
 BASE = "grand_depouillement"
 
 # les tables de référence de personne et identifiant (mêmes numéros dans construire_modele.py et les scripts integrer_*)
@@ -153,7 +154,7 @@ def charger_identifiants(df):
 
 def mysql(sql):
     # (le SQL passe par l'entrée standard, en UTF-8 : la ligne de commande de Windows abîmerait les accents)
-    r = subprocess.run([str(MYSQL), "-u", "root", "--local-infile=1", "--default-character-set=utf8mb4", "-B", BASE],
+    r = subprocess.run([str(MYSQL), *CONNEXION, "--local-infile=1", "--default-character-set=utf8mb4", "-B", BASE],
                        input=sql, capture_output=True, text=True, encoding="utf-8")
     if r.returncode:
         raise RuntimeError(r.stderr.strip()[:500])
@@ -198,7 +199,7 @@ def sauvegarder(dossier, nom, tables):
     import time
     chemin = dossier / f"{nom}_{time.strftime('%Y%m%d_%H%M')}.sql"
     with open(chemin, "w", encoding="utf-8") as f:
-        subprocess.run([str(MYSQL.parent / "mysqldump.exe"), "-u", "root", BASE, *tables], stdout=f, check=True)
+        subprocess.run([str(MYSQL.parent / "mysqldump.exe"), *CONNEXION, BASE, *tables], stdout=f, check=True)
     return chemin
 
 

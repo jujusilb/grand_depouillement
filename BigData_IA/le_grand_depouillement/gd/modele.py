@@ -8,6 +8,7 @@
 Sans MariaDB (l'exe copié sur un autre PC), l'appli tourne sur le dernier instantané. Une correction faite dans
 phpMyAdmin apparaît donc au lancement suivant de l'appli.
 """
+import os
 import json
 import time
 from pathlib import Path
@@ -20,7 +21,7 @@ TABLES = ["niveau", "zone", "commune", "bureau", "forme", "fonction", "fonction_
           "mandat_source", "groupe", "mandat_groupe", "motif_fin_groupe", "liste", "candidature", "photo", "photo_personne", "gouvernement",
           "nomination", "poste", "regime", "precision_date", "source", "licence", "position_vote", "bloc", "famille", "nuance", "nature_parti", "parti", "parti_membre", "ideologie", "parti_ideologie", "position_politique", "parti_position", "adhesion", "groupe_parti", "investiture", "axe", "ideologie_axe", "ecole", "promotion", "formation",
           "type_lien", "lien"]
-MARIADB = "host=127.0.0.1 user=root port=3306 database=grand_depouillement"
+MARIADB = f"host=127.0.0.1 user=root port={os.environ.get('GD_MARIADB_PORT', '3306')} database=grand_depouillement"
 
 
 def empreinte_mariadb(c):

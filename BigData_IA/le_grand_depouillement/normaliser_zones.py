@@ -20,6 +20,7 @@ zone_libelle, code_departement, code_region) ; fonction.zone_niveau_id → nivea
 contours → contour (zone_id, precision_m, forme_id), populations → population (zone_id, annee, population) ; les
 tables geo_* disparaissent. Tout est sauvegardé dans PROJET/DECHET avant.
 """
+import os
 import re
 import sys
 import tempfile
@@ -36,7 +37,7 @@ BASE = ICI / "data" / "depouillement.duckdb"
 AVANT = ICI.parent.parent / "DECHET" / "depouillement_avant_modele.duckdb"     # (les fichiers RNE d'origine)
 DECHET = ICI.parent.parent / "DECHET"
 T = "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
-MARIADB = "host=127.0.0.1 user=root port=3306 database=grand_depouillement"
+MARIADB = f"host=127.0.0.1 user=root port={os.environ.get('GD_MARIADB_PORT', '3306')} database=grand_depouillement"
 
 NIVEAUX = [  # id, code (pour l'appli), libellé, niveau parent
     (1, "pays", "pays", None), (2, "region", "région", 1), (3, "departement", "département", 2),

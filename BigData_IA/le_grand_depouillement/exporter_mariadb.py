@@ -26,6 +26,7 @@ ICI = Path(__file__).resolve().parent
 BASE = ICI / "data" / "depouillement.duckdb"
 ADRESSES = ICI / "data" / "adresses.parquet"
 MYSQL = Path(os.environ.get("GD_MYSQL", r"C:\xampp\mysql\bin\mysql.exe"))     # (GD_MYSQL : le MariaDB portable de l'installation)
+CONNEXION = ["-u", "root", "-h", "127.0.0.1", "-P", os.environ.get("GD_MARIADB_PORT", "3306")]   # (en TCP : XAMPP ou le portable)
 CIBLE = "grand_depouillement"
 BLOC = 2_000_000
 # (après brancher_modele.py : ces tables de DuckDB gardent un numéro de personne, relié à personne dans MariaDB)
@@ -58,7 +59,7 @@ INDEX = {
 def mysql(sql, base=CIBLE):
     """Une commande SQL dans MariaDB (avec le client de XAMPP : rien à installer)."""
     # (le SQL passe par l'entrée standard, en UTF-8 : la ligne de commande de Windows abîmerait les accents — « député »)
-    r = subprocess.run([str(MYSQL), "-u", "root", "--local-infile=1", "--default-character-set=utf8mb4", *([base] if base else [])],
+    r = subprocess.run([str(MYSQL), *CONNEXION, "--local-infile=1", "--default-character-set=utf8mb4", *([base] if base else [])],
                        input=sql, capture_output=True, text=True, encoding="utf-8")
     if r.returncode:
         raise RuntimeError(r.stderr.strip()[:500])
@@ -158,7 +159,7 @@ if __name__ == "__main__":
         sauvegarde = ICI.parent.parent / "DECHET" / f"anciennes_tables_{time.strftime('%Y%m%d_%H%M')}.sql"
         sauvegarde.parent.mkdir(parents=True, exist_ok=True)
         with open(sauvegarde, "w", encoding="utf-8") as f:
-            subprocess.run([str(MYSQL.parent / "mysqldump.exe"), "-u", "root", "--default-character-set=utf8mb4", CIBLE, *restes],
+            subprocess.run([str(MYSQL.parent / "mysqldump.exe"), *CONNEXION, "--default-character-set=utf8mb4", CIBLE, *restes],
                            stdout=f, check=True)
         mysql("SET foreign_key_checks = 0; " + " ".join(f"DROP TABLE `{t}`;" for t in restes))
         print(f"Retirées de MariaDB (sauvegarde {sauvegarde.name} dans DECHET) : {', '.join(restes)}")

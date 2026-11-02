@@ -87,9 +87,19 @@ echo  [3/4] Verification des bibliotheques...
 "%PYENV%" -m pip install --quiet -r "%ICI%app\requirements.txt"
 if errorlevel 1 goto :echec
 
-rem --- 4. les donnees : telechargement et mise en forme (scripts du depot) ---
-echo  [4/4] Recuperation et mise en forme des donnees (long : laisse tourner)...
-"%PYENV%" "%ICI%app\installation\reconstruire.py"
+rem --- 4. les donnees : au choix ---
+echo.
+echo  [4/4] Recuperation des donnees :
+echo     1 = tout retelecharger depuis les sources officielles et tout refabriquer
+echo         (environ 8 Go a telecharger, plusieurs heures)
+echo     2 = utiliser les donnees deja disponibles, toutes pretes
+echo         (environ 900 Mo a telecharger, quelques minutes)
+choice /c 12 /n /m "  Tape 1 ou 2 : "
+if errorlevel 2 (
+    "%PYENV%" "%ICI%app\installation\donnees_pretes.py"
+) else (
+    "%PYENV%" "%ICI%app\installation\reconstruire.py"
+)
 if errorlevel 1 goto :echec
 
 rem --- le lanceur, dans ce dossier ---

@@ -570,7 +570,7 @@ if int(deja.split()[-1]):
     sauvegarde.parent.mkdir(parents=True, exist_ok=True)
     with open(sauvegarde, "w", encoding="utf-8") as f:
         import subprocess
-        subprocess.run([str(mx.MYSQL.parent / "mysqldump.exe"), "-u", "root", "grand_depouillement", *TABLES], stdout=f, check=True)
+        subprocess.run([str(mx.MYSQL.parent / "mysqldump.exe"), *mx.CONNEXION, "grand_depouillement", *TABLES], stdout=f, check=True)
     etape(f"ancien modèle sauvegardé dans {sauvegarde}")
 
 etape("chargement dans MariaDB")
