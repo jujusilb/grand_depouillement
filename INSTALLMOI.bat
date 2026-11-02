@@ -5,25 +5,28 @@ rem  Double-clic, c'est tout. Relancable : la 2e fois, il met a jour.
 rem
 rem  1. Python et Git : installes avec winget s'ils manquent (les deux seules installations
 rem     hors de ce dossier).
-rem  2. Le code : clone (ou mis a jour) depuis le depot GitHub, dans ce dossier.
-rem  3. Les bibliotheques : dans un environnement Python propre a ce dossier (env\).
-rem  4. Les donnees : telechargees en ligne (data.gouv, INSEE, Wikidata) puis mises en forme
-rem     par les scripts du depot, dans ce dossier.
-rem  Tout le reste (fichiers temporaires, caches) reste dans ce dossier.
+rem  2. Le code : clone (ou mis a jour) depuis le depot GitHub, dans outils\depot.
+rem  3. Les bibliotheques : dans un environnement Python propre a ce dossier (outils\env).
+rem  4. Les donnees : toutes pretes (GitHub) ou refabriquees depuis les sources officielles.
+rem  5. Les photos et les affiches, depuis leur source d'origine.
+rem  A la fin, ce dossier contient : appli\ (l'appli et ses donnees), outils\ (la partie
+rem  technique) et LANCER_L_APPLI.bat. Tout reste dans ce dossier (temporaires : outils\tmp).
 rem ===========================================================================================
 setlocal EnableExtensions
 chcp 65001 >nul
 cd /d "%~dp0"
 set "ICI=%~dp0"
 set "DEPOT=https://github.com/jujusilb/grand_depouillement.git"
+set "OUTILS=%ICI%outils"
+set "CODE=%ICI%outils\depot"
 
-rem --- rien ne sort du dossier : temporaires et caches ici ---
-if not exist "%ICI%tmp" mkdir "%ICI%tmp"
-set "TEMP=%ICI%tmp"
-set "TMP=%ICI%tmp"
-set "PIP_CACHE_DIR=%ICI%tmp\pip"
-set "MPLCONFIGDIR=%ICI%tmp\matplotlib"
-set "PYTHONPYCACHEPREFIX=%ICI%tmp\pycache"
+rem --- rien ne sort du dossier : temporaires et caches dans outils\tmp ---
+if not exist "%OUTILS%\tmp" mkdir "%OUTILS%\tmp"
+set "TEMP=%OUTILS%\tmp"
+set "TMP=%OUTILS%\tmp"
+set "PIP_CACHE_DIR=%OUTILS%\tmp\pip"
+set "MPLCONFIGDIR=%OUTILS%\tmp\matplotlib"
+set "PYTHONPYCACHEPREFIX=%OUTILS%\tmp\pycache"
 set "PYTHONNOUSERSITE=1"
 set "PYTHONUTF8=1"
 
@@ -65,26 +68,34 @@ if not defined GIT (
 )
 echo  [1/5] Git : OK
 
-rem --- 2. le code ---
-if exist "%ICI%app\.git" (
+rem --- 2. le code, dans outils\depot ; appli\ = un raccourci de dossier vers l'appli ---
+if exist "%CODE%\.git" (
     echo  [2/5] Mise a jour du code...
-    "%GIT%" -C "%ICI%app" pull --ff-only
+    "%GIT%" -C "%CODE%" pull --ff-only
 ) else (
     echo  [2/5] Telechargement du code...
-    "%GIT%" clone --depth 1 "%DEPOT%" "%ICI%app"
+    "%GIT%" clone --depth 1 "%DEPOT%" "%CODE%"
 )
 if errorlevel 1 goto :echec
+if not exist "%ICI%appli\le_grand_depouillement.py" (
+    if exist "%ICI%appli" rmdir "%ICI%appli" 2>nul
+    mklink /J "%ICI%appli" "%CODE%\BigData_IA\le_grand_depouillement" >nul
+)
+if not exist "%ICI%appli\le_grand_depouillement.py" (
+    echo  Le dossier appli n'a pas pu etre cree.
+    goto :echec
+)
 
-rem --- 3. les bibliotheques, dans env\ ---
-if not exist "%ICI%env\Scripts\python.exe" (
+rem --- 3. les bibliotheques, dans outils\env ---
+if not exist "%OUTILS%\env\Scripts\python.exe" (
     echo  [3/5] Creation de l'environnement Python...
-    "%PY%" -m venv "%ICI%env"
+    "%PY%" -m venv "%OUTILS%\env"
     if errorlevel 1 goto :echec
 )
-set "PYENV=%ICI%env\Scripts\python.exe"
+set "PYENV=%OUTILS%\env\Scripts\python.exe"
 echo  [3/5] Verification des bibliotheques...
 "%PYENV%" -m pip install --upgrade --quiet pip
-"%PYENV%" -m pip install --quiet -r "%ICI%app\requirements.txt"
+"%PYENV%" -m pip install --quiet -r "%CODE%\requirements.txt"
 if errorlevel 1 goto :echec
 
 rem --- 4. les donnees : au choix ---
@@ -96,24 +107,24 @@ echo     2 = utiliser les donnees deja disponibles, toutes pretes
 echo         (environ 900 Mo a telecharger, quelques minutes)
 choice /c 12 /n /m "  Tape 1 ou 2 : "
 if errorlevel 2 (
-    "%PYENV%" "%ICI%app\installation\donnees_pretes.py"
+    "%PYENV%" "%CODE%\installation\donnees_pretes.py"
 ) else (
-    "%PYENV%" "%ICI%app\installation\reconstruire.py"
+    "%PYENV%" "%CODE%\installation\reconstruire.py"
 )
 if errorlevel 1 goto :echec
 
 rem --- 5. toutes les photos et toutes les affiches, depuis leur source (long la 1re fois : environ 1 heure) ---
 echo  [5/5] Photos et affiches (depuis leur source d'origine, environ 1 heure la premiere fois)...
-"%PYENV%" "%ICI%app\installation\images.py"
+"%PYENV%" "%CODE%\installation\images.py"
 if errorlevel 1 goto :echec
 
 rem --- le lanceur, dans ce dossier ---
 > "%ICI%LANCER_L_APPLI.bat" (
     echo @echo off
-    echo cd /d "%%~dp0app\BigData_IA\le_grand_depouillement"
-    echo set "MPLCONFIGDIR=%%~dp0tmp\matplotlib"
-    echo set "PYTHONPYCACHEPREFIX=%%~dp0tmp\pycache"
-    echo start "" "%%~dp0env\Scripts\pythonw.exe" le_grand_depouillement.py
+    echo cd /d "%%~dp0appli"
+    echo set "MPLCONFIGDIR=%%~dp0outils\tmp\matplotlib"
+    echo set "PYTHONPYCACHEPREFIX=%%~dp0outils\tmp\pycache"
+    echo start "" "%%~dp0outils\env\Scripts\pythonw.exe" le_grand_depouillement.py
 )
 
 echo.
