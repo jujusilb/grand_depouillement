@@ -1,5 +1,22 @@
+# les données : retéléchargées et refabriquées par installation/reconstruire.py
+ELECTION/
+BRUT/
+DECHET/
+BigData_IA/data/raw/
+BigData_IA/parquets/data/
+BigData_IA/design_appli/donnees_insee/
+BigData_IA/design_appli/pistes/geo_data.js
+BigData_IA/demo_carte/donnees/
+BigData_IA/demo_carte/cache/
+BigData_IA/demo_carte/data/
+BigData_IA/le_grand_depouillement/data/
+*.parquet
+*.duckdb
+*.duckdb.wal
+*.partiel
+__pycache__/
+# l'installation de la maman (INSTALLMOI.bat à côté du dépôt)
 app/
 env/
 tmp/
-__pycache__/
 LANCER_L_APPLI.bat

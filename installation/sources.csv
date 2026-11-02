@@ -1,0 +1,12 @@
+phase;destination;url;taille;page
+1;ELECTION/general_results.csv;https://data-pipeline-open.s3.sbg.io.cloud.ovh.net/elections/general_results.csv;405739150;https://www.data.gouv.fr/datasets/donnees-des-elections-agregees
+1;ELECTION/candidats_results.csv;https://data-pipeline-open.s3.sbg.io.cloud.ovh.net/elections/candidats_results.csv;2383692807;https://www.data.gouv.fr/datasets/donnees-des-elections-agregees
+1;ELECTION/table-bv-reu.csv;https://static.data.gouv.fr/resources/bureaux-de-vote-et-adresses-de-leurs-electeurs/20230626-135808/table-bv-reu.csv;6938370;https://www.data.gouv.fr/datasets/bureaux-de-vote-et-adresses-de-leurs-electeurs
+1;ELECTION/table-adresses-reu.csv;https://static.data.gouv.fr/resources/bureaux-de-vote-et-adresses-de-leurs-electeurs/20230626-140445/table-adresses-reu.csv;1896219713;https://www.data.gouv.fr/datasets/bureaux-de-vote-et-adresses-de-leurs-electeurs
+1;ELECTION/v_commune_2026.csv;https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv;3565935;https://www.insee.fr/fr/information/8740222
+1;ELECTION/v_canton_2026.csv;https://www.insee.fr/fr/statistiques/fichier/8740222/v_canton_2026.csv;188007;https://www.insee.fr/fr/information/8740222
+1;ELECTION/v_arrondissement_2026.csv;https://www.insee.fr/fr/statistiques/fichier/8740222/v_arrondissement_2026.csv;21989;https://www.insee.fr/fr/information/8740222
+1;ELECTION/v_departement_2026.csv;https://www.insee.fr/fr/statistiques/fichier/8740222/v_departement_2026.csv;6076;https://www.insee.fr/fr/information/8740222
+1;ELECTION/v_region_2026.csv;https://www.insee.fr/fr/statistiques/fichier/8740222/v_region_2026.csv;1245;https://www.insee.fr/fr/information/8740222
+1;BigData_IA/design_appli/donnees_insee/epci_au_01-01-2026.zip;https://www.insee.fr/fr/statistiques/fichier/2510634/EPCI_au_01-01-2026.zip;1106611;https://www.insee.fr/fr/information/2510634
+1;BigData_IA/data/raw/contours-iris/iris2022.7z;https://data.geopf.fr/telechargement/download/CONTOURS-IRIS/CONTOURS-IRIS_2-1__SHP__FRA_2022-01-01/CONTOURS-IRIS_2-1__SHP__FRA_2022-01-01.7z;43221268;https://geoservices.ign.fr/contoursiris

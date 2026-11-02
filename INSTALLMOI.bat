@@ -12,6 +12,7 @@ rem     par les scripts du depot, dans ce dossier.
 rem  Tout le reste (fichiers temporaires, caches) reste dans ce dossier.
 rem ===========================================================================================
 setlocal EnableExtensions
+chcp 65001 >nul
 cd /d "%~dp0"
 set "ICI=%~dp0"
 set "DEPOT=https://github.com/jujusilb/grand_depouillement.git"
@@ -24,6 +25,7 @@ set "PIP_CACHE_DIR=%ICI%tmp\pip"
 set "MPLCONFIGDIR=%ICI%tmp\matplotlib"
 set "PYTHONPYCACHEPREFIX=%ICI%tmp\pycache"
 set "PYTHONNOUSERSITE=1"
+set "PYTHONUTF8=1"
 
 echo.
 echo  ==== Le Grand Depouillement : installation ====
@@ -87,13 +89,13 @@ if errorlevel 1 goto :echec
 
 rem --- 4. les donnees : telechargement et mise en forme (scripts du depot) ---
 echo  [4/4] Recuperation et mise en forme des donnees (long : laisse tourner)...
-"%PYENV%" "%ICI%app\installation\reconstruire.py" --dossier "%ICI%."
+"%PYENV%" "%ICI%app\installation\reconstruire.py"
 if errorlevel 1 goto :echec
 
 rem --- le lanceur, dans ce dossier ---
 > "%ICI%LANCER_L_APPLI.bat" (
     echo @echo off
-    echo cd /d "%%~dp0app"
+    echo cd /d "%%~dp0app\BigData_IA\le_grand_depouillement"
     echo set "MPLCONFIGDIR=%%~dp0tmp\matplotlib"
     echo set "PYTHONPYCACHEPREFIX=%%~dp0tmp\pycache"
     echo start "" "%%~dp0env\Scripts\pythonw.exe" le_grand_depouillement.py
