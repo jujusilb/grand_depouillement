@@ -43,7 +43,7 @@ rem --- 1. Python ---
 call :trouver_python
 if not defined PY (
     echo  [1/4] Python absent : installation...
-    winget install --exact --id Python.Python.3.13 --scope user --silent --accept-package-agreements --accept-source-agreements
+    winget install --exact --id Python.Python.3.14 --scope user --silent --accept-package-agreements --accept-source-agreements
     call :trouver_python
 )
 if not defined PY (
@@ -119,7 +119,7 @@ rem --- Python : le lanceur py, sinon python.exe aux endroits habituels (PATH pa
 set "PY="
 for %%P in (py.exe) do if not "%%~$PATH:P"=="" set "PY=%%~$PATH:P"
 if not defined PY if exist "%LOCALAPPDATA%\Programs\Python\Launcher\py.exe" set "PY=%LOCALAPPDATA%\Programs\Python\Launcher\py.exe"
-if not defined PY if exist "%LOCALAPPDATA%\Programs\Python\Python313\python.exe" set "PY=%LOCALAPPDATA%\Programs\Python\Python313\python.exe"
+if not defined PY if exist "%LOCALAPPDATA%\Programs\Python\Python314\python.exe" set "PY=%LOCALAPPDATA%\Programs\Python\Python314\python.exe"
 if not defined PY if exist "%WINDIR%\py.exe" set "PY=%WINDIR%\py.exe"
 exit /b 0
 

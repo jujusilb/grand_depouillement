@@ -53,7 +53,7 @@ ETAPES = [
 
 
 def lancer(script):
-    r = subprocess.run([sys.executable, script.name], cwd=script.parent, env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+    r = subprocess.run([sys.executable, script.name], cwd=script.parent, env=dict(os.environ, PYTHONIOENCODING="utf-8", GD_INSTALLATION="1"))
     return r.returncode == 0
 
 

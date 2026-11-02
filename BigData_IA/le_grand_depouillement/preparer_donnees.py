@@ -206,14 +206,14 @@ for nom, (lignes, colonnes) in tables_geo.items():
 
 # 3. Contexte, économie, listes
 print("3/6 Contexte, économie, listes…")
-for nom, fichier in [("contexte_communes", CONTEXTE / "contexte_communes.parquet"),
+for nom, fichier in ([("contexte_communes", CONTEXTE / "contexte_communes.parquet"),
                      ("economie_mois", CONTEXTE / "economie" / "economie_mois.parquet"),
                      ("veille_scrutins", CONTEXTE / "economie" / "veille_scrutins.parquet"),
                      ("candidats_listes", CONTEXTE / "listes" / "candidats_listes.parquet"),
                      ("populations", CONTEXTE / "populations" / "populations.parquet"),
                      ("elus_municipaux_2014", CONTEXTE / "elus_2014" / "elus_municipaux_2014.parquet"),
                      ("sieges_2026", CONTEXTE / "sieges_2026" / "sieges_2026.parquet")]
-                    + [(f.stem, f) for f in sorted((CONTEXTE / "rne").glob("rne_*.parquet"))]:
+                     + [(f.stem, f) for f in sorted((CONTEXTE / "rne").glob("rne_*.parquet"))]):
     if fichier.exists():
         con.execute(f"CREATE TABLE {nom} AS SELECT * FROM '{fichier.as_posix()}'")
     else:
@@ -283,9 +283,12 @@ else:
 
 # 8. Le modèle « personnes et mandats » (MariaDB fait foi) : les tables qui écrivaient les personnes en dur deviennent
 #    des vues du modèle (brancher_modele.py), puis les sièges de toutes les assemblées sont figés (table sieges_figes)
-print("8/8 Branchement sur le modèle, puis sièges figés (Assemblée, départements, régions, communes, ~ quelques minutes)…")
 con.close()
+import os
 import subprocess
 import sys
+if os.environ.get("GD_INSTALLATION"):      # (l'installation lance ces deux scripts plus tard, une fois MariaDB rempli)
+    sys.exit(0)
+print("8/8 Branchement sur le modèle, puis sièges figés (Assemblée, départements, régions, communes, ~ quelques minutes)…")
 subprocess.run([sys.executable, "-X", "utf8", str(Path(__file__).resolve().parent / "brancher_modele.py")], check=True)
 subprocess.run([sys.executable, "-X", "utf8", str(Path(__file__).resolve().parent / "figer_sieges.py")], check=True)
