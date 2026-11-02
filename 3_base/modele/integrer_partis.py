@@ -128,7 +128,9 @@ def main():
     p = pd.DataFrame(lignes)
     p.insert(0, "id", range(1, len(p) + 1))
     p["nature_parti_id"] = p.nature.map({l: i for i, l in NATURES})
-    par_q = dict(zip(p.wikidata, p.id))
+    # (seulement les partis qui ONT une fiche Wikidata : sinon la clé vide renverrait tous les « sans succession » vers le
+    #  dernier parti sans fiche — c'était 1 504 partis « remplaçant » 100 % Perpignan)
+    par_q = {q: i for q, i in zip(p.wikidata, p.id) if isinstance(q, str) and q}
     p["remplace_parti_id"] = p.succede.map(par_q)
     # la nuance du ministère dont l'explication est le nom du parti (« Parti socialiste » → SOC)
     nu = requete("SELECT id, libelle, explication FROM nuance WHERE explication IS NOT NULL")

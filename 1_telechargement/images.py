@@ -8,6 +8,7 @@ images.py — Toutes les photos et toutes les affiches de l'appli, téléchargé
     data/photos/senat/     photos officielles des sénateurs (Sénat)
     data/photos/wikimedia/ photos libres des personnalités (Wikimedia Commons, vignettes de 200 px)
     data/photos/candidats/ photos libres des candidats (Wikimedia Commons, vignettes de 200 px ; crédits : credits.parquet)
+    data/logos/            logos libres des partis (Wikimedia Commons, 200 px, PNG ; table parti_logo)
     data/affiches/         affiches des Hauts-de-Seine 1968-1990 (Archives départementales, 700 px au plus long,
                            réduites mais jamais recadrées : licence CC BY-NC-ND)
 """
@@ -72,12 +73,12 @@ def enregistrer(contenu, dest, taille=None, largeur=None):
     if not taille and not largeur:
         dest.write_bytes(contenu)
         return
-    im = Image.open(io.BytesIO(contenu)).convert("RGB")
+    im = Image.open(io.BytesIO(contenu)).convert("RGBA" if dest.suffix == ".png" else "RGB")   # (les logos : PNG transparents)
     if taille:
         im.thumbnail((taille, taille), Image.LANCZOS)
     elif im.width > largeur:
         im = im.resize((largeur, round(im.height * largeur / im.width)), Image.LANCZOS)
-    im.save(dest, "JPEG", quality=85)
+    im.save(dest, "PNG") if dest.suffix == ".png" else im.save(dest, "JPEG", quality=85)
 
 
 def serie(nom, travail, fils, depuis=0, total=None, **reduire):
@@ -167,6 +168,10 @@ def main():
     c = pd.read_parquet(credits) if credits.exists() else pd.DataFrame(columns=["fichier", "page"])
     a_faire = [(fichier_commons(a), DATA / "photos" / f) for a, f in zip(p.adresse, p.fichier)] + \
               [(fichier_commons(pg), DATA / "photos" / "candidats" / f) for pg, f in zip(c.page, c.fichier)]
+    # (et les logos libres des partis : table parti_logo)
+    if con.execute("SELECT count(*) FROM duckdb_tables() WHERE database_name = 'm' AND table_name = 'parti_logo'").fetchall()[0][0]:
+        lg = con.execute("SELECT fichier, adresse FROM m.parti_logo").df()
+        a_faire += [(fichier_commons(a), DATA / f) for a, f in zip(lg.adresse, lg.fichier)]
     a_faire = [(n, f) for n, f in a_faire if not f.exists()]
     print(f"   Wikimedia Commons : {len(a_faire)} vignettes à chercher", flush=True)
     adresses = vignettes_commons([n for n, _ in a_faire])

@@ -31,7 +31,8 @@ def main():
     for a in publication["assets"]:
         cible = AILLEURS.get(a["name"], DATA / a["name"])
         # (une archive est « déjà là » quand ce qu'elle contient est là : la base, ou les affiches pour images.zip)
-        fait = {"donnees_appli.zip": DATA / "depouillement.duckdb", "images.zip": DATA / "affiches" / "LISEZMOI.txt"}.get(a["name"], cible)
+        fait = {"donnees_appli.zip": DATA / "depouillement.duckdb", "images.zip": DATA / "affiches" / "LISEZMOI.txt",
+                "logos.zip": DATA / "logos" / "LISEZMOI.txt"}.get(a["name"], cible)
         if fait.exists():
             print(f"   {a['name']} : déjà là")
             continue
@@ -47,6 +48,10 @@ def main():
                 for i, m in enumerate(membres, 1):
                     z.extract(m, DATA)
                     telecharger.signe(i, len(membres), "fichiers décompressés")
+            if a["name"] == "logos.zip":
+                (DATA / "logos" / "LISEZMOI.txt").write_text("Logos libres des partis (Wikimedia Commons), installés depuis "
+                                                            "la Release GitHub : auteur et licence dans la table parti_logo.\n",
+                                                            encoding="utf-8")
             if a["name"] == "images.zip":
                 (DATA / "affiches" / "LISEZMOI.txt").write_text(
                     "Photos et affiches installées depuis la Release GitHub (images.zip). Chacune garde son auteur et sa "

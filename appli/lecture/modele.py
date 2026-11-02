@@ -19,7 +19,7 @@ INSTANTANE_NOM = "modele.duckdb"
 TABLES = ["niveau", "zone", "commune", "bureau", "forme", "fonction", "fonction_duree", "incompatibilite", "categorie_election", "scrutin", "mode_scrutin", "motif_debut",
           "motif_fin", "election", "referentiel", "methode_identification", "personne", "identifiant", "mandat",
           "mandat_source", "groupe", "mandat_groupe", "motif_fin_groupe", "liste", "candidature", "photo", "photo_personne", "gouvernement",
-          "nomination", "poste", "regime", "precision_date", "source", "licence", "position_vote", "bloc", "famille", "nuance", "nature_parti", "parti", "parti_membre", "ideologie", "parti_ideologie", "position_politique", "parti_position", "adhesion", "groupe_parti", "investiture", "axe", "ideologie_axe", "ecole", "promotion", "formation",
+          "nomination", "poste", "regime", "precision_date", "source", "licence", "position_vote", "bloc", "famille", "nuance", "nature_parti", "parti", "parti_membre", "ideologie", "parti_ideologie", "position_politique", "parti_position", "adhesion", "groupe_parti", "investiture", "axe", "ideologie_axe", "ecole", "promotion", "formation", "parti_logo",
           "type_lien", "lien"]
 MARIADB = f"host=127.0.0.1 user=root port={os.environ.get('GD_MARIADB_PORT', '3306')} database=grand_depouillement"
 

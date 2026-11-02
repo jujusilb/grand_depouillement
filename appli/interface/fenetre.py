@@ -32,7 +32,7 @@ from lecture import adresse, affiches, photos
 from politique import candidats, legislatures, parlement, sieges
 from interface import export, theme
 from politique import votes as votes_deputes
-from politique import personnes
+from politique import partis, personnes
 from interface.catalogue import DESCRIPTIONS, MENU, NOMS_FORMES, QUESTIONS, THEMES_REFERENDUMS, VUES
 from interface.theme import C
 
@@ -1168,6 +1168,8 @@ class Application(tk.Tk):
                 ttk.Label(f, text="Personne de ce nom dans la base.", style="Gris.TLabel").pack(anchor="w", padx=14)
         if "gouvernement" in reglages and personnes.disponible():
             combo("Gouvernement", personnes.gouvernements()["choix"].tolist(), "gouvernement", largeur=44)
+        if "parti" in reglages and partis.disponible():
+            combo("Parti (les plus présents dans la base d'abord)", list(partis.choix()), "parti", largeur=44)
         if "ecole" in reglages and personnes.disponible():
             combo("École (la liste de ses ministres est dans l'export)", personnes.ecoles(), "ecole", largeur=44)
         if "prefets_depuis" in reglages:

@@ -14,12 +14,13 @@ C'est le fichier à modifier pour faire évoluer l'appli, sans toucher à la fen
 Une ligne de VUES = (nom de la pastille, fonction qui dessine, formes possibles, réglages de la vue, précaution)
     formes possibles : barres_h, barres_v, anneau, tableau, histogramme, boites, nuage, chaleur, courbe  (la 1re = celle par défaut)
     réglages de la vue : indicateur, tranches, candidat, candidat2, texte, echelle, chambre, vote, depute, affiches, legislature,
-                         personne, gouvernement, ecole, prefets_depuis   (fabriqués par fenetre.py, panneau de droite)
+                         personne, gouvernement, ecole, parti, prefets_depuis   (fabriqués par fenetre.py, panneau de droite)
 La barre latérale (fenetre.py) range les mêmes vues par QUESTIONS (MENU, plus bas) : une ligne = une question et le chemin
 qui y répond (onglet, vue, élection, réglages).
 """
 
 from graphiques import graphiques as g
+from graphiques import graphiques_partis as gpa
 from graphiques import graphiques_personnes as gp
 from graphiques.graphiques import AXE
 
@@ -130,10 +131,18 @@ VUES = {
         ("Préfets du département", gp.prefets, [], ["prefets_depuis"], "Années seules avant 1990 (Archives nationales)."),
         ("Écoles et pouvoir", gp.ecoles, [], ["ecole"], "Wikidata ne connaît que les diplômés « notables »."),
         ("Cumuls aujourd'hui", gp.cumuls, [], [], "Le Répertoire national des élus n'est pas toujours à jour."),
-        ("Idéologies d'une zone", gp.ideologies_zone, [], [], "Législatives 2017-2024 : voix → parti de rattachement du "
-                                                              "candidat → idéologies du parti (Wikidata)."),
+    ],
+    "Partis": [
+        ("Fiche d'un parti", gpa.fiche_parti, [], ["parti"], "Wikidata et ministère de l'Intérieur ; logos libres de Wikimedia Commons."),
+        ("Les plus anciens", gpa.anciens, [], [], "Encore actif : comptes à la CNCCFP ou candidats aux législatives 2017-2024."),
+        ("Les grandes lois", gpa.lois, [], [], "Le parti du Premier ministre le jour du vote (projets de loi)."),
+        ("Écoles des partis", gpa.ecoles, [], ["ecole"], "Wikidata ne connaît que les diplômés « notables »."),
+        ("Personnalités", gpa.personnalites, [], [], "Les adhésions déclarées dans Wikidata."),
+        ("Coalitions", gpa.coalitions, [], [], "Composition d'après Wikidata."),
         ("Échiquier politique", gp.echiquier, [], ["personne"], "Partis placés d'après Wikidata (positions, idéologies) ; "
                                                                "tape un nom pour voir son trajet d'un parti à l'autre."),
+        ("Idéologies d'une zone", gp.ideologies_zone, [], [], "Législatives 2017-2024 : voix → parti de rattachement du "
+                                                              "candidat → idéologies du parti (Wikidata)."),
     ],
     "Comparer": [
         ("Deux zones", g.comparer_zones, ["barres_v", "barres_h"], ["comparaison"], "Score = voix / exprimés de chaque zone ; blancs et nuls = / votants."),
@@ -194,6 +203,12 @@ DESCRIPTIONS = {
     "Écoles et pouvoir": "ENA, Sciences Po, X, IRA : combien de leurs diplômés sont devenus élus, ministres, préfets.",
     "Cumuls aujourd'hui": "Qui a aujourd'hui deux mandats ou fonctions en même temps (député + maire…).",
     "Idéologies d'une zone": "Quelles idéologies pèsent dans la zone choisie, d'une législative à l'autre.",
+    "Fiche d'un parti": "Un parti : ses logos, sa lignée, ses coalitions, ses idéologies, ses adhérents connus et ses candidats.",
+    "Les plus anciens": "Les partis encore actifs, du plus ancien (créé en 1901) au plus récent.",
+    "Les grandes lois": "Les lois entrées dans l'histoire, et le parti du gouvernement qui les a portées.",
+    "Écoles des partis": "Quel parti compte le plus d'énarques, de polytechniciens, d'anciens de Sciences Po…",
+    "Personnalités": "Les partis qui comptent le plus de personnalités : ministres, parlementaires, figures connues.",
+    "Coalitions": "La NUPES, le Nouveau Front populaire, Ensemble… et les partis qui les composent.",
     "Échiquier politique": "Les partis placés de gauche à droite et du souverainisme à l'europhilie, d'après leurs idéologies.",
 }
 
@@ -262,14 +277,23 @@ MENU = {
         Q("Comment chaque groupe a-t-il voté ?", "Votes", "Vote des groupes", "Choisis le vote à droite."),
         Q("Les photos des députés et sénateurs", "Sièges", "Trombinoscope"),
     ]),
+    "Partis et groupes": ("🏳", [
+        Q("Quel est le parti le plus ancien ?", "Partis", "Les plus anciens"),
+        Q("Quel parti est à l'origine du plus de lois entrées dans l'histoire ?", "Partis", "Les grandes lois"),
+        Q("Quel parti a eu le plus d'énarques ?", "Partis", "Écoles des partis", "Choisis une autre école à droite.",
+          options={"ecole": "École nationale d'administration"}),
+        Q("Quel parti a le plus de personnalités ?", "Partis", "Personnalités"),
+        Q("Tout sur un parti : logos, lignée, adhérents", "Partis", "Fiche d'un parti", "Choisis le parti à droite."),
+        Q("Qui compose la NUPES, le Nouveau Front populaire… ?", "Partis", "Coalitions"),
+        Q("Où sont les partis sur l'échiquier politique ?", "Partis", "Échiquier politique", "Tape un nom à droite pour son trajet."),
+        Q("Quelles idéologies pèsent dans ma zone ?", "Partis", "Idéologies d'une zone", "Choisis la zone en haut."),
+    ]),
     "Personnes": ("👤", [
         Q("Le parcours d'une personne (mandats, ministères, écoles)", "Personnes", "Fiche d'une personne", "Tape un nom à droite."),
         Q("Qui était dans tel gouvernement ?", "Personnes", "Un gouvernement", "Choisis le gouvernement à droite."),
         Q("Combien d'énarques sont devenus ministres ?", "Personnes", "Écoles et pouvoir", "Choisis une autre école à droite.",
           options={"ecole": "École nationale d'administration"}),
         Q("Qui était préfet de mon département ?", "Personnes", "Préfets du département", "Choisis le département en haut."),
-        Q("Où sont les partis sur l'échiquier politique ?", "Personnes", "Échiquier politique", "Tape un nom à droite pour son trajet."),
-        Q("Quelles idéologies pèsent dans ma zone ?", "Personnes", "Idéologies d'une zone", "Choisis la zone en haut."),
         Q("Candidats : âge, métiers", "Candidat", "Profils des candidats", "Choisis l'élection et la zone en haut."),
         Q("Les affiches de campagne", "Affiches", "Affiches de campagne"),
     ]),

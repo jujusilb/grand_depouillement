@@ -63,6 +63,8 @@ SOURCES_CONNUES = {  # cle → (libellé, producteur, url, fichier dans PROJET/B
     "photos Sénat": ("Photos officielles des sénateurs", "Sénat", "https://data.senat.fr", None, 2),
     "photos Wikimedia Commons": ("Photos libres des personnalités politiques (via Wikidata)", "Wikimedia Commons",
                                  "https://commons.wikimedia.org", None, None),   # (une licence par photo : photo.licence_id)
+    "logos Wikimedia Commons": ("Logos libres des partis politiques (via Wikidata, propriété P154)", "Wikimedia Commons",
+                                "https://commons.wikimedia.org", None, None),    # (une licence par logo : parti_logo.licence_id)
     "saisie manuelle": ("Renseigné à la main par l'auteur de la base (liens_saisis.csv…)", "auteur de la base",
                         None, None, None),
     "promotions ENA": ("Noms et années des promotions de l'ENA depuis 1945", "Institut national du service public (ex-ENA)",
