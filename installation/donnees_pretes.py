@@ -17,6 +17,9 @@ import telecharger
 ICI = Path(__file__).resolve().parent
 DATA = ICI.parent / "BigData_IA" / "le_grand_depouillement" / "data"
 RELEASE = "https://api.github.com/repos/jujusilb/grand_depouillement/releases/latest"
+# (les fichiers qui ne vont pas dans data/ même : les crédits des photos des candidats — les photos, elles, viennent de
+#  Wikimedia Commons, par images.py)
+AILLEURS = {"credits_photos_candidats.parquet": DATA / "photos" / "candidats" / "credits.parquet"}
 
 
 def main():
@@ -26,7 +29,7 @@ def main():
     print(f"Données prêtes : « {publication['name']} »")
     DATA.mkdir(parents=True, exist_ok=True)
     for a in publication["assets"]:
-        cible = DATA / a["name"]
+        cible = AILLEURS.get(a["name"], DATA / a["name"])
         fait = DATA / "depouillement.duckdb" if a["name"] == "donnees_appli.zip" else cible
         if fait.exists():
             print(f"   {a['name']} : déjà là")

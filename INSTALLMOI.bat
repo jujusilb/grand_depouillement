@@ -42,7 +42,7 @@ if errorlevel 1 (
 rem --- 1. Python ---
 call :trouver_python
 if not defined PY (
-    echo  [1/4] Python absent : installation...
+    echo  [1/5] Python absent : installation...
     winget install --exact --id Python.Python.3.14 --scope user --silent --accept-package-agreements --accept-source-agreements
     call :trouver_python
 )
@@ -50,12 +50,12 @@ if not defined PY (
     echo  Python n'a pas pu etre installe.
     goto :echec
 )
-echo  [1/4] Python : OK
+echo  [1/5] Python : OK
 
 rem --- 1 bis. Git ---
 call :trouver_git
 if not defined GIT (
-    echo  [1/4] Git absent : installation...
+    echo  [1/5] Git absent : installation...
     winget install --exact --id Git.Git --silent --accept-package-agreements --accept-source-agreements
     call :trouver_git
 )
@@ -63,33 +63,33 @@ if not defined GIT (
     echo  Git n'a pas pu etre installe.
     goto :echec
 )
-echo  [1/4] Git : OK
+echo  [1/5] Git : OK
 
 rem --- 2. le code ---
 if exist "%ICI%app\.git" (
-    echo  [2/4] Mise a jour du code...
+    echo  [2/5] Mise a jour du code...
     "%GIT%" -C "%ICI%app" pull --ff-only
 ) else (
-    echo  [2/4] Telechargement du code...
+    echo  [2/5] Telechargement du code...
     "%GIT%" clone --depth 1 "%DEPOT%" "%ICI%app"
 )
 if errorlevel 1 goto :echec
 
 rem --- 3. les bibliotheques, dans env\ ---
 if not exist "%ICI%env\Scripts\python.exe" (
-    echo  [3/4] Creation de l'environnement Python...
+    echo  [3/5] Creation de l'environnement Python...
     "%PY%" -m venv "%ICI%env"
     if errorlevel 1 goto :echec
 )
 set "PYENV=%ICI%env\Scripts\python.exe"
-echo  [3/4] Verification des bibliotheques...
+echo  [3/5] Verification des bibliotheques...
 "%PYENV%" -m pip install --upgrade --quiet pip
 "%PYENV%" -m pip install --quiet -r "%ICI%app\requirements.txt"
 if errorlevel 1 goto :echec
 
 rem --- 4. les donnees : au choix ---
 echo.
-echo  [4/4] Recuperation des donnees :
+echo  [4/5] Recuperation des donnees :
 echo     1 = tout retelecharger depuis les sources officielles et tout refabriquer
 echo         (environ 8 Go a telecharger, plusieurs heures)
 echo     2 = utiliser les donnees deja disponibles, toutes pretes
@@ -100,6 +100,11 @@ if errorlevel 2 (
 ) else (
     "%PYENV%" "%ICI%app\installation\reconstruire.py"
 )
+if errorlevel 1 goto :echec
+
+rem --- 5. toutes les photos et toutes les affiches, depuis leur source (long la 1re fois : environ 1 heure) ---
+echo  [5/5] Photos et affiches (depuis leur source d'origine, environ 1 heure la premiere fois)...
+"%PYENV%" "%ICI%app\installation\images.py"
 if errorlevel 1 goto :echec
 
 rem --- le lanceur, dans ce dossier ---
