@@ -387,6 +387,71 @@ def repartir_municipal(tour, r, e, sieges, c):
     return tour, r, sieges, pd.DataFrame(elus, columns=["liste", "ordre", "elu", "sexe"])
 
 
+# --- Paris, Lyon, Marseille (code électoral, tableaux n° 2, 3 et 4) ---------------------------------------------------------
+# Jusqu'en 2020 : chaque secteur élit ses conseillers municipaux (prime de 50 % dans le secteur, puis plus forte moyenne) ;
+# le conseil municipal est la somme des secteurs. Depuis 2026 (loi du 11 août 2025) : toute la ville élit le conseil
+# municipal sur une seule liste, prime de 25 % à la liste en tête (et à part, chaque secteur son conseil d'arrondissement).
+def _secteurs_paris(sieges, centre=None):
+    s = [(f"{i}e" if i > 1 else "1er", [f"751{i:02d}"], n) for i, n in enumerate(sieges, 1)]
+    return ([("Paris Centre", ["75101", "75102", "75103", "75104"], centre)] + s[4:]) if centre else s
+
+
+SECTEURS = {  # ville → [(depuis l'année, [(secteur, ses arrondissements, conseillers municipaux)])], le plus récent d'abord
+    "75056": [(2020, _secteurs_paris([0, 0, 0, 0, 4, 3, 4, 3, 4, 7, 11, 10, 13, 10, 18, 13, 12, 15, 14, 14], centre=8)),
+              (2014, _secteurs_paris([1, 2, 3, 2, 4, 3, 4, 3, 4, 7, 11, 10, 13, 10, 18, 13, 12, 15, 14, 14])),
+              (0, _secteurs_paris([3, 3, 3, 3, 4, 3, 5, 3, 4, 6, 11, 10, 13, 10, 17, 13, 13, 14, 12, 13]))],
+    "69123": [(0, [(f"{i}e" if i > 1 else "1er", [f"6938{i}"], n) for i, n in enumerate([4, 5, 12, 5, 8, 9, 9, 12, 9], 1)])],
+    "13055": [(0, [(f"{s} ({'1er' if a == 1 else f'{a}e'} et {b}e)", [f"132{a:02d}", f"132{b:02d}"], n)
+                   for s, a, b, n in [("I", 1, 7, 11), ("II", 2, 3, 8), ("III", 4, 5, 11), ("IV", 6, 8, 15), ("V", 9, 10, 15),
+                                      ("VI", 11, 12, 13), ("VII", 13, 14, 16), ("VIII", 15, 16, 12)]])],
+}
+FILTRE_ARRONDISSEMENTS = ("p.id_brut_miom IN (SELECT z.code FROM modele.zone z JOIN modele.zone m ON m.id = z.parent_id "
+                          "WHERE z.niveau_id = 12 AND m.niveau_id = 9 AND m.code IN ({}))")
+
+
+def secteurs(commune, annee):
+    return next(s for depuis, s in SECTEURS[commune] if annee >= depuis)
+
+
+def numero_secteur(commune, annee, arrondissement):
+    """Le numéro du secteur d'un arrondissement (celui des zones « 75056SR17 ») : Paris et Lyon, le numéro de
+    l'arrondissement (Paris Centre = 1 depuis 2020) ; Marseille, I à VIII."""
+    if commune == "13055":
+        return next(i for i, (_, arr, _) in enumerate(secteurs(commune, annee), 1) if arrondissement in arr)
+    n = int(str(arrondissement)[-2:])
+    return 1 if commune == "75056" and annee >= 2020 and n <= 4 else n
+
+
+@lru_cache(maxsize=32)
+def conseil_plm(scrutin, commune, arrondissement=None):
+    """Le conseil municipal de Paris, Lyon ou Marseille : (listes avec leurs sièges et leur secteur, sièges, note) ;
+    avec un arrondissement (avant 2026) : seulement les conseillers municipaux élus dans son secteur."""
+    an = int(scrutin[:4])
+    if an >= 2026:
+        n = int(sieges_officiels(an)[commune])
+        tour, r, e = tour_decisif(scrutin, "p.code_commune = ?", [commune])
+        r = _avec_prime(r, e, n, math.ceil(n / 4)).assign(secteur="toute la ville", tour=tour)
+        return r, n, (f"{n} sièges élus par toute la ville (réforme de 2025) : prime de 25 % à la liste en tête, le reste à "
+                      f"la plus forte moyenne (listes ≥ 5 %), décidé au {'1er' if tour.endswith('t1') else '2nd'} tour.")
+    morceaux = []
+    for nom, arrondissements, n in secteurs(commune, an):
+        if arrondissement and arrondissement not in arrondissements:
+            continue
+        filtre = FILTRE_ARRONDISSEMENTS.format(", ".join("?" * len(arrondissements)))
+        tour, r, e = tour_decisif(scrutin, filtre, arrondissements)
+        if not len(r):
+            continue
+        prime = math.ceil(n / 2) if n > 4 else n // 2 or n
+        morceaux.append(_avec_prime(r, e, n, prime).assign(secteur=nom, tour=tour))
+    if not morceaux:
+        return None
+    r = pd.concat(morceaux, ignore_index=True)
+    n = int(r["sieges"].sum())
+    return r, n, (f"{n} conseillers municipaux élus {'dans ce secteur' if arrondissement else 'secteur par secteur'} : "
+                  "dans chaque secteur, prime de 50 % à la liste en tête, le reste à la plus forte moyenne (listes ≥ 5 %), "
+                  "au tour décisif du secteur. (Les conseillers d'arrondissement, élus en plus, ne sont pas comptés.)")
+
+
 @lru_cache(maxsize=32)
 @fige
 def delegation_europeenne(scrutin):

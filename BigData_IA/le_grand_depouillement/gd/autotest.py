@@ -120,6 +120,14 @@ def autotest(app, dossier):
         # les sièges figés : le conseil municipal du Puy (2026), une petite commune de 2020 (candidats un par un), l'Île-de-France 2021
         app.choisir_vue("Sièges", 0)
         photo(app, dossier, "sieges_conseil_municipal_puy_2026")
+        # Paris : le Conseil de Paris 2026 (toute la ville, prime de 25 %), puis le secteur du 17e en 2020
+        app.choisir_zone(d.Zone("departement", "75", "Paris"))
+        app.choisir_vue("Sièges", 0)
+        photo(app, dossier, "sieges_conseil_de_paris_2026")
+        app.cb_annee.set("2020"); app.maj_regles_scrutin()
+        app.choisir_zone(d.Zone("arrmun", "75117", "Paris 17e Arrondissement"))
+        app.choisir_vue("Sièges", 0)
+        photo(app, dossier, "sieges_paris_17e_2020")
         app.cb_annee.set("2020"); app.maj_regles_scrutin()
         app.choisir_zone(d.Zone("commune", "43001", "Agnat"))
         app.choisir_vue("Sièges", 0)

@@ -567,6 +567,32 @@ def _commune_de(zone):
     return None
 
 
+def _ville_plm(arrondissement):
+    """« 75117 » → « 75056 » (Paris), « 69383 » → Lyon, « 13207 » → Marseille."""
+    return {"751": "75056", "693": "69123", "132": "13055"}.get(str(arrondissement)[:3])
+
+
+def _conseil_plm(s, base, com, arrondissement):
+    """Paris, Lyon, Marseille : toute la ville (les sièges réunis par nuance) ou, avec un arrondissement, les listes de son
+    secteur (avant 2026 ; ensuite toute la ville, seule élue au conseil municipal)."""
+    m = sieges.conseil_plm(base, com, arrondissement if int(s[:4]) < 2026 else None)
+    if m is None:
+        return {"message": "Pas de résultats pour cette ville à ce scrutin."}
+    r, n, note = m
+    r = r[r["sieges"] > 0]
+    secteur = arrondissement and int(s[:4]) < 2026
+    if secteur or int(s[:4]) >= 2026:             # une seule élection : les listes, avec leur nuance
+        groupes = r[["qui", "sieges", "nuance"]].rename(columns={"qui": "groupe"})
+        regroupement = "Candidat / liste"
+    else:                                         # vingt secteurs : les listes réunies par nuance
+        groupes = r.groupby("nuance", dropna=False)["sieges"].sum().reset_index().assign(groupe=lambda x: x["nuance"].fillna("?"))
+        regroupement = "Nuance"
+    elus = r.assign(lieu=r["secteur"], etiquette=r["nuance"], tour=r["tour"].str[-1].astype(int))[["lieu", "qui", "etiquette", "tour", "pct", "sieges"]]
+    titre = (f"Conseil municipal {s[:4]} – {d.nom_zone('commune', com)}"
+             + (f" – élus du secteur {r['secteur'].iloc[0]}" if secteur and len(r) else ""))
+    return {"titre": titre, "groupes": groupes[["groupe", "sieges", "nuance"]], "elus": elus, "regroupement": regroupement, "note": note}
+
+
 def assemblee(ctx):
     """L'assemblée élue par ce scrutin, dans la zone choisie : dict(titre, groupes, elus, note) ou dict(message)."""
     s, t, z = ctx.scrutin, d.type_de(ctx.scrutin), ctx.zone
@@ -613,6 +639,9 @@ def assemblee(ctx):
                         f"décidé au {'1er' if tour.endswith('t1') else '2nd'} tour. (La répartition entre départements n'est pas faite.)"}
     if t == "Municipales":
         com = _commune_de(z)
+        plm = {"75": "75056"}.get(z.code) if z.niveau == "departement" else _ville_plm(z.code) if z.niveau == "arrmun" else None
+        if com in d.VILLES_PLM or plm:
+            return _conseil_plm(s, base, com or plm, z.code if z.niveau == "arrmun" else None)
         if not com:
             return {"message": "Choisis une commune (volet Zone, ou 🔎 Commune) : c'est son conseil municipal qui s'affiche."}
         m = sieges.conseil_municipal(base, com)

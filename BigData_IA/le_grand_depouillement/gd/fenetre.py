@@ -28,7 +28,7 @@ from PIL import Image, ImageTk
 
 from gd import donnees as d
 from gd import graphiques as g
-from gd import adresse, affiches, candidats, export, legislatures, parlement, photos, theme
+from gd import adresse, affiches, candidats, export, legislatures, parlement, photos, sieges, theme
 from gd import votes as votes_deputes
 from gd import personnes
 from gd.catalogue import DESCRIPTIONS, MENU, NOMS_FORMES, QUESTIONS, THEMES_REFERENDUMS, VUES
@@ -732,8 +732,10 @@ class Application(tk.Tk):
             poser("departement", info["dp"]); self.maj_cascade("departement")
             if zone.niveau in ("arrondissement", "epci", "circo", "canton"):
                 poser(zone.niveau, zone.code); self.maj_cascade(zone.niveau)
-            if zone.niveau in ("commune", "bureau"):
+            if zone.niveau in ("commune", "bureau", "arrmun"):
                 poser("commune", info["cm"]); self.maj_cascade("commune")
+            if zone.niveau == "arrmun":                 # (un arrondissement de Paris, Lyon ou Marseille)
+                poser("arrmun", zone.code); self.maj_cascade("arrmun")
             if zone.niveau == "bureau":
                 poser("bureau", zone.code)
         self.maj_cascade("bureau", utilisateur=True)
@@ -1187,20 +1189,28 @@ class Application(tk.Tk):
         t = d.type_de(s)
         groupes = []
         if t == "Municipales":
-            com = z.code if z.niveau == "commune" else None
-            if z.niveau == "bureau":
-                com = z.code.split("_")[0]
+            com = z.code if z.niveau == "commune" else z.code.split("_")[0] if z.niveau == "bureau" else None
+            if z.niveau == "departement" and z.code == "75":                     # (Paris : le département est la commune)
+                com = "75056"
+            if z.niveau == "arrmun":                                              # (un arrondissement de Paris, Lyon, Marseille)
+                com = {"751": "75056", "693": "69123", "132": "13055"}.get(z.code[:3])
             if not com:
                 self.intertitre(f, "Listes et colistiers")
                 ttk.Label(f, text="Choisis une commune dans le volet Zone pour voir ses listes.", style="Gris.TLabel", wraplength=self.lt).pack(anchor="w", padx=14)
                 return
             groupes.append(("Conseil municipal", com, "municipal"))
             if com in d.VILLES_PLM:
-                for code in d.sql(f"""SELECT DISTINCT z.code FROM modele.liste l JOIN modele.scrutin sc ON sc.id = l.scrutin_id JOIN modele.election e ON e.id = sc.election_id
+                # les listes de chaque secteur (jusqu'en 2020 : le conseil municipal ; depuis 2026 : le conseil d'arrondissement) ;
+                # un arrondissement choisi : seulement son secteur
+                seul = sieges.numero_secteur(com, int(s[:4]), z.code) if z.niveau == "arrmun" else None
+                for code, conseil in d.sql(f"""SELECT DISTINCT z.code, l.conseil FROM modele.liste l JOIN modele.scrutin sc ON sc.id = l.scrutin_id
+                                     JOIN modele.election e ON e.id = sc.election_id
                                      JOIN modele.zone z ON z.id = l.zone_id AND z.niveau_id = {d.NIVEAU['secteur']}
-                                     WHERE e.code = ? AND sc.tour = ? AND l.conseil = 'arrondissement' AND z.code LIKE ? ORDER BY 1""",
-                                  [*d.election_tour(s), com + "SR%"])["code"]:
-                    groupes.append((f"Conseil d'arrondissement – secteur {code[-2:]}", code, "arrondissement"))
+                                     WHERE e.code = ? AND sc.tour = ? AND z.code LIKE ? ORDER BY 1, 2""",
+                                           [*d.election_tour(s), com + "SR%"]).itertuples(index=False):
+                    if seul is None or int(code[-2:]) == seul:
+                        quoi = "Conseil municipal" if conseil == "municipal" else "Conseil d'arrondissement"
+                        groupes.append((f"{quoi} – secteur {int(code[-2:])}", code, conseil))
         elif t == "Régionales":
             reg = z.code if z.niveau == "region" else None
             if z.niveau not in ("france", "region"):
@@ -1220,7 +1230,7 @@ class Application(tk.Tk):
         self.listes_chargees = {}
         nuance_de = {}                 # (une liste de l'arbre → son code de nuance, pour l'expliquer quand on la choisit)
         n = 0
-        for titre, code, conseil in groupes[:8]:
+        for titre, code, conseil in groupes[:25]:
             l = d.listes(s, code, conseil)
             if l.empty:
                 continue
