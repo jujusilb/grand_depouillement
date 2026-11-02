@@ -66,8 +66,8 @@ def telecharger(url, cible, attendue=None, essais=5):
     return True
 
 
-def main(phase=None):
-    liste = sources(phase)
+def main(phase=None, liste=None):
+    liste = sources(phase) if liste is None else liste
     manque = [l for l in liste if not (RACINE / l["destination"]).exists()]
     total = sum(int(l["taille"] or 0) for l in manque)
     print(f"   {len(manque)} fichiers à télécharger sur {len(liste)} ({taille_lisible(total)})")

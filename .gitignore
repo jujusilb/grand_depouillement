@@ -20,3 +20,7 @@ app/
 env/
 tmp/
 LANCER_L_APPLI.bat
+# les produits du contexte (refabriqués)
+BigData_IA/donnees_contexte/*/brut/
+BigData_IA/donnees_contexte/*/parquet/
+BigData_IA/donnees_contexte/economie/brut/
