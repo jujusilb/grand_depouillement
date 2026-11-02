@@ -195,7 +195,7 @@ class Fenetre(tk.Tk):
         super().__init__()
         self.title("Installation du Grand Dépouillement")
         self.configure(bg=FOND)
-        self.geometry("900x760")
+        self.geometry("900x800")
         self.minsize(760, 640)
         style = ttk.Style(self)
         style.theme_use("clam")
@@ -234,7 +234,7 @@ class Fenetre(tk.Tk):
         self.barre.pack(fill="x", padx=14)
         self.compte = tk.Label(cadre, text="", font=(POLICE, 12), fg=TEXTE, bg=PALE, anchor="w")
         self.compte.pack(fill="x", padx=14, pady=(6, 2))
-        self.detail = tk.Label(cadre, text="", font=(POLICE, 9), fg=GRIS, bg=PALE, anchor="w")
+        self.detail = tk.Label(cadre, text="", font=(POLICE, 9), fg=GRIS, bg=PALE, anchor="w", justify="left", wraplength=800)
         self.detail.pack(fill="x", padx=14, pady=(0, 10))
 
         tk.Label(self, text="Toute l'installation", font=(POLICE, 11, "bold"), fg=TEXTE, bg=FOND).pack(anchor="w", padx=24, pady=(6, 0))
@@ -359,9 +359,8 @@ class Fenetre(tk.Tk):
         self.annonce.config(text="Terminé ! L'appli est installée.", fg=VERT)
         self.compte.config(text="Pour la lancer plus tard : double-clic sur LANCER_L_APPLI.bat, dans ce dossier.")
         self.detail.config(text="")
-        if self.avertissements:
-            tk.Label(self, text="À savoir : " + " ".join(self.avertissements), font=(POLICE, 12), fg="#B34000", bg=FOND,
-                     anchor="w", justify="left", wraplength=850).pack(fill="x", padx=24, before=self.boutons)
+        if self.avertissements:                     # (dans le cadre de l'étape : les boutons restent visibles)
+            self.detail.config(text="À savoir : " + " ".join(self.avertissements), font=(POLICE, 12), fg="#B34000")
         b = self.bouton("Lancer l'appli", self.lancer_appli, principal=True)
         self.bouton("Fermer", self.destroy)
         b.focus_set()
