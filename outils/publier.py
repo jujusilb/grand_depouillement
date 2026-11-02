@@ -17,6 +17,8 @@ FICHIERS = [  # motifs glob, relatifs à PROJET
     "BigData_IA/demo_megabase/construire_megabase.py",
     "BigData_IA/design_appli/pistes/fabriquer_geo.py",
     "BigData_IA/demo_carte/construire_donnees.py",
+    "BigData_IA/data/trier_par_election.py",
+    "BigData_IA/donnees_contexte/cdsp_anciens/fabriquer_cdsp.py",
     "BigData_IA/donnees_contexte/convertir_en_parquet.py",
     "BigData_IA/donnees_contexte/fabriquer_contexte_communes.py",
     "BigData_IA/donnees_contexte/referendums/fabriquer_referendums.py",

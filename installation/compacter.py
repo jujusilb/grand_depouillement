@@ -18,7 +18,7 @@ def vers_parquet(f):
     ext = f.suffix.lower()
     if ext in (".csv", ".txt"):
         con = duckdb.connect()
-        for options in ("", ", encoding='latin-1'"):
+        for options in ("", ", quote='\"'", ", encoding='latin-1'", ", quote='\"', encoding='latin-1'", ", quote='\"', strict_mode=false", ", quote='\"', encoding='latin-1', strict_mode=false"):
             try:
                 con.execute(f"COPY (SELECT * FROM read_csv('{f.as_posix()}', all_varchar=true, null_padding=true{options})) "
                             f"TO '{cible.as_posix()}' (FORMAT parquet, COMPRESSION zstd)")

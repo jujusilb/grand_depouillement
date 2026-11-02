@@ -24,3 +24,5 @@ LANCER_L_APPLI.bat
 BigData_IA/donnees_contexte/*/brut/
 BigData_IA/donnees_contexte/*/parquet/
 BigData_IA/donnees_contexte/economie/brut/
+BigData_IA/data/tri/
+BigData_IA/data/tri_parquet/
