@@ -50,8 +50,7 @@ def main():
             if a["name"] == "images.zip":
                 (DATA / "affiches" / "LISEZMOI.txt").write_text(
                     "Photos et affiches installées depuis la Release GitHub (images.zip). Chacune garde son auteur et sa "
-                    "licence dans la base ; 1_telechargement/images.py complète ce qui manque depuis les sites d'origine.
-",
+                    "licence dans la base ; 1_telechargement/images.py complète ce qui manque depuis les sites d'origine.\n",
                     encoding="utf-8")
             cible.unlink()                 # (le moins de place possible)
     print("Données prêtes installées.")
