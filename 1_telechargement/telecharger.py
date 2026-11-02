@@ -19,7 +19,8 @@ RACINE = ICI.parent                         # (la racine du dépôt : les destin
 SOURCES = ICI / "sources.csv"
 ENTETE = {"User-Agent": "LeGrandDepouillement/1.0 (installation, donnees electorales ouvertes)"}
 # les signes de vie pour la fenêtre d'installation (4_installation/installateur.py, qui pose GD_PROGRESSION) :
-#   « @@ fait total texte » fait avancer la barre de l'étape ; « @@> texte » dit ce qui se fait
+#   « @@ fait total texte » fait avancer la barre de l'étape ; « @@> texte » dit ce qui se fait ;
+#   « @@! texte » : un avertissement, montré à la fin
 SIGNES = bool(os.environ.get("GD_PROGRESSION"))
 _dernier = [0.0]
 
@@ -33,6 +34,11 @@ def signe(fait, total, texte="", forcer=False):
 def annonce(texte):
     if SIGNES:
         print(f"@@> {texte}", flush=True)
+
+
+def avertir(texte):
+    """Un avertissement que la fenêtre d'installation montre à la fin (« @@! texte »)."""
+    print(f"@@! {texte}" if SIGNES else f"   ATTENTION : {texte}", flush=True)
 
 
 def sources(phase=None):

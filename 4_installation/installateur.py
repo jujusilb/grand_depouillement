@@ -72,7 +72,7 @@ class Installation(threading.Thread):
         env = dict(os.environ, TEMP=str(TMP), TMP=str(TMP), PIP_CACHE_DIR=str(TMP / "pip"), MPLCONFIGDIR=str(TMP / "matplotlib"),
                    PYTHONPYCACHEPREFIX=str(TMP / "pycache"), PYTHONNOUSERSITE="1", PYTHONUTF8="1", PYTHONUNBUFFERED="1",
                    GD_PROGRESSION="1")
-        with open(JOURNAL, "a", encoding="utf-8") as j:
+        with open(JOURNAL, "a", encoding="utf-8", buffering=1) as j:      # (ligne à ligne : rien ne se perd si ça plante)
             j.write(f"\n=== {time.strftime('%d/%m %H:%M:%S')} {' '.join(map(str, commande))}\n")
             self.processus = subprocess.Popen([str(c) for c in commande], cwd=cwd, env=env, stdout=subprocess.PIPE,
                                               stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace",
@@ -80,7 +80,9 @@ class Installation(threading.Thread):
             for ligne in self.processus.stdout:
                 j.write(ligne)
                 ligne = ligne.strip()
-                if ligne.startswith("@@>"):
+                if ligne.startswith("@@!"):
+                    self.dire("avertissement", ligne[3:].strip())
+                elif ligne.startswith("@@>"):
                     self.dire("annonce", ligne[3:].strip())
                 elif ligne.startswith("@@ "):
                     morceaux = ligne[3:].split(" ", 2)
@@ -98,7 +100,7 @@ class Installation(threading.Thread):
                 self.dire("etape", cle, "fait")
             self.dire("fin")
         except Exception as e:                       # (une panne imprévue : on la montre, avec son détail dans le journal)
-            with open(JOURNAL, "a", encoding="utf-8") as j:
+            with open(JOURNAL, "a", encoding="utf-8", buffering=1) as j:      # (ligne à ligne : rien ne se perd si ça plante)
                 j.write(f"\n!!! {e!r}\n")
             self.dire("erreur", f"{e.__class__.__name__} : {e}")
 
@@ -130,10 +132,14 @@ class Installation(threading.Thread):
         self.dire("annonce", f"Téléchargement de {len(a_faire)} bibliothèques…")
         compteur = [0]
 
-        def compter(ligne):                           # (pip écrit « Collecting pandas==… » pour chacune)
-            if ligne.startswith("Collecting "):
+        def compter(ligne):              # (pip écrit « Downloading pandas-….whl » ou « Using cached … » pour chacune)
+            if ligne.startswith(("Downloading ", "Using cached ")):
                 compteur[0] += 1
-                self.dire("barre", min(compteur[0], len(a_faire)), len(a_faire), ligne.split()[1].split("=")[0])
+                nom = ligne.split()[1 if ligne.startswith("Downloading") else 2].split("/")[-1].split("-")[0]
+                self.dire("barre", min(compteur[0], len(a_faire)), len(a_faire), nom)
+                return True
+            if ligne.startswith("Collecting "):
+                self.dire("detail", f"Recherche de {ligne.split()[1].split('=')[0]}…")
                 return True
             if ligne.startswith("Installing collected packages"):
                 self.dire("annonce", "Installation des bibliothèques (une ou deux minutes)…")
@@ -198,7 +204,7 @@ class Fenetre(tk.Tk):
         style.configure("Bleu.Horizontal.TProgressbar", background=BLEU, troughcolor="#E5E5E5", bordercolor="#CECECE",
                         lightcolor=BLEU, darkcolor=BLEU, thickness=14)
         self.file, self.choix = queue.Queue(), {"valeur": None, "evenement": threading.Event()}
-        self.en_cours, self.fini, self.part, self.debut_barre = None, set(), 0.0, None
+        self.en_cours, self.fini, self.part, self.debut_barre, self.avertissements = None, set(), 0.0, None, []
 
         tk.Label(self, text="Installation du Grand Dépouillement", font=(POLICE, 20, "bold"), fg=BLEU, bg=FOND).pack(
             anchor="w", padx=24, pady=(18, 0))
@@ -303,6 +309,9 @@ class Fenetre(tk.Tk):
         self.annonce.config(text=texte)
         self.debut_barre = None
 
+    def m_avertissement(self, texte):
+        self.avertissements.append(texte)
+
     def m_detail(self, texte):
         self.detail.config(text=texte[:140])
 
@@ -350,6 +359,9 @@ class Fenetre(tk.Tk):
         self.annonce.config(text="Terminé ! L'appli est installée.", fg=VERT)
         self.compte.config(text="Pour la lancer plus tard : double-clic sur LANCER_L_APPLI.bat, dans ce dossier.")
         self.detail.config(text="")
+        if self.avertissements:
+            tk.Label(self, text="À savoir : " + " ".join(self.avertissements), font=(POLICE, 12), fg="#B34000", bg=FOND,
+                     anchor="w", justify="left", wraplength=850).pack(fill="x", padx=24, before=self.boutons)
         b = self.bouton("Lancer l'appli", self.lancer_appli, principal=True)
         self.bouton("Fermer", self.destroy)
         b.focus_set()
