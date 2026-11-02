@@ -32,8 +32,8 @@ JOURNAL = OUTILS / "installation.log"
 PYTHON = Path(sys.executable).with_name("python.exe")            # (le Python de l'ordinateur, pour créer env\)
 SANS_FENETRE = getattr(subprocess, "CREATE_NO_WINDOW", 0)         # (les scripts tournent sans fenêtre noire)
 
-# les couleurs de l'appli (thème Marianne), contrastes WCAG AA
-FOND, TEXTE, BLEU, VERT, GRIS, ROUGE, PALE = "#FFFFFF", "#161616", "#000091", "#18753C", "#5A5A5A", "#CE0500", "#F5F5FE"
+# les couleurs de la charte de l'appli (appli/interface/theme.py, palette « Marianne »), contrastes WCAG AA
+FOND, TEXTE, BLEU, VERT, GRIS, ROUGE, PALE = "#FFFFFF", "#161616", "#000091", "#18753C", "#505050", "#E1000F", "#F5F5FE"
 POLICE = "Segoe UI"
 
 # (clé, titre, explication, poids dans la barre générale)
@@ -360,7 +360,7 @@ class Fenetre(tk.Tk):
         self.compte.config(text="Pour la lancer plus tard : double-clic sur LANCER_L_APPLI.bat, dans ce dossier.")
         self.detail.config(text="")
         if self.avertissements:                     # (dans le cadre de l'étape : les boutons restent visibles)
-            self.detail.config(text="À savoir : " + " ".join(self.avertissements), font=(POLICE, 12), fg="#B34000")
+            self.detail.config(text="À savoir : " + " ".join(self.avertissements), font=(POLICE, 12), fg=ROUGE)
         b = self.bouton("Lancer l'appli", self.lancer_appli, principal=True)
         self.bouton("Fermer", self.destroy)
         b.focus_set()
