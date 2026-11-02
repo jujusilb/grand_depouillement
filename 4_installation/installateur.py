@@ -41,9 +41,10 @@ ETAPES = [
     ("env", "L'environnement Python", "Un Python rien que pour l'appli, rangé dans ce dossier (outils\\env).", 1),
     ("libs", "Les bibliothèques", "pandas, DuckDB, matplotlib, seaborn… : environ 300 Mo, une seule fois.", 4),
     ("choix", "Le choix des données", "Toutes prêtes, ou refabriquées depuis les sources officielles.", 0),
-    ("donnees", "Les données", "La base de l'appli : 135 scrutins, les communes, les personnes et les mandats.", 10),
+    ("donnees", "Les données", "La base de l'appli (135 scrutins, les communes, les personnes et les mandats), "
+                                 "avec toutes les photos et les affiches.", 12),
     ("images", "Les photos et les affiches", "Assemblée nationale, Sénat, Wikimedia Commons, Archives des Hauts-de-Seine : "
-                                             "environ 9 500 images, depuis leur site d'origine.", 25),
+                                             "ce qui manque encore, depuis leur site d'origine.", 5),
     ("fin", "Le raccourci", "Le dossier appli et LANCER_L_APPLI.bat, dans ce dossier.", 1),
 ]
 

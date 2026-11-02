@@ -4,7 +4,7 @@ donnees_pretes.py — Option 2 de INSTALLMOI.bat : les données toutes prêtes, 
     py installation/donnees_pretes.py
 
 Télécharge la dernière « Release » du dépôt GitHub (donnees_appli.zip : depouillement.duckdb + modele.duckdb ;
-adresses.parquet) et la range dans BigData_IA/donnees/appli/. Relançable : ce qui est déjà là est gardé.
+adresses.parquet ; images.zip : toutes les photos et les affiches) et la range dans BigData_IA/donnees/appli/. Relançable : ce qui est déjà là est gardé.
 """
 import sys
 import zipfile
@@ -30,7 +30,8 @@ def main():
     DATA.mkdir(parents=True, exist_ok=True)
     for a in publication["assets"]:
         cible = AILLEURS.get(a["name"], DATA / a["name"])
-        fait = DATA / "depouillement.duckdb" if a["name"] == "donnees_appli.zip" else cible
+        # (une archive est « déjà là » quand ce qu'elle contient est là : la base, ou les affiches pour images.zip)
+        fait = {"donnees_appli.zip": DATA / "depouillement.duckdb", "images.zip": DATA / "affiches" / "LISEZMOI.txt"}.get(a["name"], cible)
         if fait.exists():
             print(f"   {a['name']} : déjà là")
             continue
@@ -40,9 +41,18 @@ def main():
             print(f"Impossible de télécharger {a['name']}. Relancer INSTALLMOI.bat reprendra ici.")
             return 1
         if cible.suffix == ".zip":
-            telecharger.annonce("Décompression de la base")
+            telecharger.annonce(f"Décompression de {a['name']}")
             with zipfile.ZipFile(cible) as z:
-                z.extractall(DATA)
+                membres = z.namelist()
+                for i, m in enumerate(membres, 1):
+                    z.extract(m, DATA)
+                    telecharger.signe(i, len(membres), "fichiers décompressés")
+            if a["name"] == "images.zip":
+                (DATA / "affiches" / "LISEZMOI.txt").write_text(
+                    "Photos et affiches installées depuis la Release GitHub (images.zip). Chacune garde son auteur et sa "
+                    "licence dans la base ; 1_telechargement/images.py complète ce qui manque depuis les sites d'origine.
+",
+                    encoding="utf-8")
             cible.unlink()                 # (le moins de place possible)
     print("Données prêtes installées.")
     return 0
