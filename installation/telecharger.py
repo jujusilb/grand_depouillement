@@ -69,7 +69,7 @@ def telecharger(url, cible, attendue=None, essais=5):
 def main(phase=None, liste=None):
     liste = sources(phase) if liste is None else liste
     manque = [l for l in liste if not (RACINE / l["destination"]).exists()]
-    total = sum(int(l["taille"] or 0) for l in manque)
+    total = sum(int(float(l["taille"] or 0)) for l in manque)
     print(f"   {len(manque)} fichiers à télécharger sur {len(liste)} ({taille_lisible(total)})")
     rates = []
     for i, l in enumerate(liste, 1):
@@ -77,7 +77,7 @@ def main(phase=None, liste=None):
         if cible.exists():
             continue
         print(f"   [{i}/{len(liste)}] {l['destination']} ({taille_lisible(int(l['taille'] or 0))})")
-        if not telecharger(l["url"], cible, int(l["taille"]) if l["taille"] else None):
+        if not telecharger(l["url"], cible, int(float(l["taille"])) if l["taille"] else None):
             rates.append(l["destination"])
     if rates:
         print("   Impossible de télécharger :", *rates, sep="\n      ")
