@@ -125,7 +125,7 @@ def main():
     rates += serie("photos libres (Wikimedia Commons)", [(adresses.get(n), f) for n, f in a_faire], 0.5, largeur=200)
     # 3. les affiches des Hauts-de-Seine
     a = con.execute("SELECT identifiant, adresse FROM b.affiches").df() if \
-        con.execute("SELECT count(*) FROM b.information_schema.tables WHERE table_name = 'affiches'").fetchall()[0][0] else \
+        con.execute("SELECT count(*) FROM duckdb_tables() WHERE database_name = 'b' AND table_name = 'affiches'").fetchall()[0][0] else \
         pd.DataFrame(columns=["identifiant", "adresse"])
     rates += serie("affiches (Hauts-de-Seine)", [(u, DATA / "affiches" / f"{i}.jpg") for i, u in zip(a.identifiant, a.adresse)],
                    0.2, taille=700)
