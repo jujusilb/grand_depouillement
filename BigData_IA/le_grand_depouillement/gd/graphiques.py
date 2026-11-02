@@ -578,19 +578,39 @@ def _conseil_plm(s, base, com, arrondissement):
     m = sieges.conseil_plm(base, com, arrondissement if int(s[:4]) < 2026 else None)
     if m is None:
         return {"message": "Pas de résultats pour cette ville à ce scrutin."}
-    r, n, note = m
+    r, n, noms, note = m
     r = r[r["sieges"] > 0]
     secteur = arrondissement and int(s[:4]) < 2026
-    if secteur or int(s[:4]) >= 2026:             # une seule élection : les listes, avec leur nuance
-        groupes = r[["qui", "sieges", "nuance"]].rename(columns={"qui": "groupe"})
-        regroupement = "Candidat / liste"
-    else:                                         # vingt secteurs : les listes réunies par nuance
+    par_nuance = not secteur and int(s[:4]) < 2026        # (vingt secteurs : les listes réunies par nuance)
+    if par_nuance:
         groupes = r.groupby("nuance", dropna=False)["sieges"].sum().reset_index().assign(groupe=lambda x: x["nuance"].fillna("?"))
-        regroupement = "Nuance"
-    elus = r.assign(lieu=r["secteur"], etiquette=r["nuance"], tour=r["tour"].str[-1].astype(int))[["lieu", "qui", "etiquette", "tour", "pct", "sieges"]]
+    else:                                                  # (une seule élection : les listes, avec leur nuance)
+        groupes = r[["qui", "sieges", "nuance"]].rename(columns={"qui": "groupe"})
+    # chaque siège : l'élu (les premiers de sa liste) et, d'après le Répertoire national des élus, s'il siège encore
+    en_place, quand = _en_place_rne(s, com)
+    nuance = dict(zip(r["qui"], r["nuance"]))
+    elus = pd.DataFrame({
+        "qui": noms["elu"],
+        "etiquette": [nuance.get(l) if par_nuance else l for l in noms["liste"]],
+        "lieu": [f"{x} · " + (f"siège en {quand} (RNE)" if d.normaliser(q) in en_place else f"ne siège plus en {quand}")
+                 if quand else x for x, q in zip(noms["secteur"], noms["elu"])],
+        "tour": int(r["tour"].iloc[0][-1]) if len(r) else 1, "pct": np.nan})
     titre = (f"Conseil municipal {s[:4]} – {d.nom_zone('commune', com)}"
              + (f" – élus du secteur {r['secteur'].iloc[0]}" if secteur and len(r) else ""))
-    return {"titre": titre, "groupes": groupes[["groupe", "sieges", "nuance"]], "elus": elus, "regroupement": regroupement, "note": note}
+    if quand:
+        note += f" Élus : les premiers de chaque liste ; « siège en {quand} » d'après le Répertoire national des élus."
+    return {"titre": titre, "groupes": groupes[["groupe", "sieges", "nuance"]], "elus": elus,
+            "regroupement": "Nuance" if par_nuance else "Candidat / liste", "note": note}
+
+
+def _en_place_rne(s, com):
+    """Les noms (normalisés) des conseillers municipaux en place d'après le RNE le plus proche de ce scrutin, et sa date."""
+    from gd import rne
+    c = rne.conseil(s.replace("_2t", "_t1"), d.Zone("commune", com, d.nom_zone("commune", com)))
+    if "elus" not in c:
+        return set(), None
+    t = c["elus"]
+    return {d.normaliser(f"{p} {n}") for p, n in zip(t["prenom"].fillna(""), t["nom"])}, rne.LIBELLES[c["version"]]
 
 
 def assemblee(ctx):

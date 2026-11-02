@@ -366,9 +366,11 @@ def repartir_plurinominal(t1, r1, e1, i1, t2=None, r2=None, taille=11):
     return tour, r, taille, elus
 
 
-def repartir_municipal(tour, r, e, sieges, c):
-    """Le calcul seul : r = voix des listes au tour décisif (rangées par voix), e = exprimés, c = les candidats de ce tour."""
-    prime = math.ceil(sieges / 2) if sieges > 4 else sieges // 2
+def repartir_municipal(tour, r, e, sieges, c, prime=None):
+    """Le calcul seul : r = voix des listes au tour décisif (rangées par voix), e = exprimés, c = les candidats de ce tour ;
+    prime : 50 % des sièges sauf mention contraire (25 % pour Paris, Lyon, Marseille depuis 2026)."""
+    if prime is None:
+        prime = math.ceil(sieges / 2) if sieges > 4 else sieges // 2
     r = _avec_prime(r.sort_values("voix", ascending=False).reset_index(drop=True), e, sieges, prime)
     # les élus : les premiers de chaque liste, dans l'ordre (la tête de liste du résultat = son nom)
     c = c.copy()
@@ -422,32 +424,52 @@ def numero_secteur(commune, annee, arrondissement):
     return 1 if commune == "75056" and annee >= 2020 and n <= 4 else n
 
 
+def _candidats_liste(scrutin, tour, niveau, code):
+    """Les candidats des listes municipales d'une zone (commune ou secteur), au tour décisif (sinon au 1er : les listes
+    du 2nd tour 2014 manquent), dans l'ordre de leur liste."""
+    for qui_tour in dict.fromkeys([tour, _id_tour(scrutin, 1)]):
+        c = d.sql("""SELECT l.numero_panneau, c.rang ordre, p.prenoms || ' ' || p.nom_usage AS elu, p.nom_usage nom, p.sexe,
+                            l.libelle libelle_liste, l.libelle_abrege libelle_abrege, c.tete_de_liste
+                     FROM modele.candidature c JOIN modele.liste l ON l.id = c.liste_id
+                     JOIN modele.scrutin sc ON sc.id = l.scrutin_id JOIN modele.election e ON e.id = sc.election_id
+                     JOIN modele.personne p ON p.id = c.personne_id JOIN modele.zone z ON z.id = l.zone_id
+                     WHERE e.code = ? AND sc.tour = ? AND z.niveau_id = ? AND z.code = ? AND l.conseil = 'municipal'
+                     ORDER BY l.numero_panneau, c.rang""", [*d.election_tour(qui_tour), d.NIVEAU[niveau], code])
+        if len(c):
+            return c
+    return c
+
+
 @lru_cache(maxsize=32)
 def conseil_plm(scrutin, commune, arrondissement=None):
-    """Le conseil municipal de Paris, Lyon ou Marseille : (listes avec leurs sièges et leur secteur, sièges, note) ;
-    avec un arrondissement (avant 2026) : seulement les conseillers municipaux élus dans son secteur."""
+    """Le conseil municipal de Paris, Lyon ou Marseille : (listes avec leurs sièges et leur secteur, sièges, élus, note) ;
+    avec un arrondissement (avant 2026) : seulement les conseillers municipaux élus dans son secteur.
+    Les élus : les premiers de chaque liste, dans l'ordre (les listes déposées du secteur, ou de la ville en 2026)."""
     an = int(scrutin[:4])
     if an >= 2026:
         n = int(sieges_officiels(an)[commune])
         tour, r, e = tour_decisif(scrutin, "p.code_commune = ?", [commune])
-        r = _avec_prime(r, e, n, math.ceil(n / 4)).assign(secteur="toute la ville", tour=tour)
-        return r, n, (f"{n} sièges élus par toute la ville (réforme de 2025) : prime de 25 % à la liste en tête, le reste à "
+        _, r, _, elus = repartir_municipal(tour, r, e, n, _candidats_liste(scrutin, tour, "commune", commune), math.ceil(n / 4))
+        r = r.assign(secteur="toute la ville", tour=tour)
+        return r, n, elus.assign(secteur="toute la ville"), (f"{n} sièges élus par toute la ville (réforme de 2025) : prime de 25 % à la liste en tête, le reste à "
                       f"la plus forte moyenne (listes ≥ 5 %), décidé au {'1er' if tour.endswith('t1') else '2nd'} tour.")
-    morceaux = []
-    for nom, arrondissements, n in secteurs(commune, an):
+    morceaux, elus = [], []
+    for i, (nom, arrondissements, n) in enumerate(secteurs(commune, an), 1):
         if arrondissement and arrondissement not in arrondissements:
             continue
         filtre = FILTRE_ARRONDISSEMENTS.format(", ".join("?" * len(arrondissements)))
         tour, r, e = tour_decisif(scrutin, filtre, arrondissements)
         if not len(r):
             continue
-        prime = math.ceil(n / 2) if n > 4 else n // 2 or n
-        morceaux.append(_avec_prime(r, e, n, prime).assign(secteur=nom, tour=tour))
+        code = f"{commune}SR{numero_secteur(commune, an, arrondissements[0]):02d}"
+        _, r, _, e_ = repartir_municipal(tour, r, e, n, _candidats_liste(scrutin, tour, "secteur", code))
+        morceaux.append(r.assign(secteur=nom, tour=tour))
+        elus.append(e_.assign(secteur=nom))
     if not morceaux:
         return None
     r = pd.concat(morceaux, ignore_index=True)
     n = int(r["sieges"].sum())
-    return r, n, (f"{n} conseillers municipaux élus {'dans ce secteur' if arrondissement else 'secteur par secteur'} : "
+    return r, n, pd.concat(elus, ignore_index=True), (f"{n} conseillers municipaux élus {'dans ce secteur' if arrondissement else 'secteur par secteur'} : "
                   "dans chaque secteur, prime de 50 % à la liste en tête, le reste à la plus forte moyenne (listes ≥ 5 %), "
                   "au tour décisif du secteur. (Les conseillers d'arrondissement, élus en plus, ne sont pas comptés.)")
 
