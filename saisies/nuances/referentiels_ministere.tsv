@@ -1,0 +1,340 @@
+# Grilles de nuances du ministère de l'Intérieur, lues le 2 novembre 2026 sur les pages « référentiel / nuances » de
+# https://www.archives-resultats-elections.interieur.gouv.fr/resultats/<élection>/ (une page par élection).
+# Les élections sans page de nuances (présidentielles, législatives 2002 et 2007, européennes 2004-2019, cantonales…)
+# n'apparaissent pas.
+election	code	explication
+legislatives2024	EXG	Extrême gauche
+legislatives2024	COM	Parti communiste français
+legislatives2024	FI	La France insoumise
+legislatives2024	SOC	Parti socialiste
+legislatives2024	RDG	Parti radical de gauche
+legislatives2024	VEC	Les Ecologistes
+legislatives2024	DVG	Divers gauche
+legislatives2024	UG	Union de la gauche
+legislatives2024	ECO	Ecologistes
+legislatives2024	REG	Régionaliste
+legislatives2024	DIV	Divers
+legislatives2024	REN	Renaissance
+legislatives2024	MDM	Modem
+legislatives2024	HOR	Horizons
+legislatives2024	ENS	Ensemble ! (Majorité présidentielle)
+legislatives2024	DVC	Divers centre
+legislatives2024	UDI	Union des Démocrates et Indépendants
+legislatives2024	LR	Les Républicains
+legislatives2024	DVD	Divers droite
+legislatives2024	DSV	Droite souverainiste
+legislatives2024	RN	Rassemblement National
+legislatives2024	REC	Reconquête !
+legislatives2024	UXD	Union de l'extrême droite
+legislatives2024	EXD	Extrême droite
+europeennes2024	EXG	Extrême gauche
+europeennes2024	COM	Parti communiste français
+europeennes2024	FI	La France insoumise
+europeennes2024	SOC	Parti socialiste
+europeennes2024	RDG	Parti radical de gauche
+europeennes2024	VEC	Les Ecologistes
+europeennes2024	DVG	Divers gauche
+europeennes2024	ECO	Ecologistes
+europeennes2024	REG	Régionaliste
+europeennes2024	DIV	Divers
+europeennes2024	REN	Renaissance
+europeennes2024	MDM	Modem
+europeennes2024	HOR	Horizons
+europeennes2024	DVC	Divers centre
+europeennes2024	UDI	Union des Démocrates et Indépendants
+europeennes2024	LR	Les Républicains
+europeennes2024	DVD	Divers droite
+europeennes2024	DLF	Debout la France
+europeennes2024	RN	Rassemblement National
+europeennes2024	REC	Reconquête !
+europeennes2024	EXD	Extrême droite
+europeennes2024	LEXG	Liste d'extrême-gauche
+europeennes2024	LCOM	Liste du Parti communiste français
+europeennes2024	LFI	Liste de La France insoumise
+europeennes2024	LUG	Liste d'union à gauche
+europeennes2024	LVEC	Liste Les Ecologistes
+europeennes2024	LDVG	Liste divers gauche
+europeennes2024	LECO	Liste écologiste
+europeennes2024	LDIV	Liste Divers
+europeennes2024	LENS	Liste Ensemble
+europeennes2024	LDVC	Liste divers centre
+europeennes2024	LLR	Liste des Républicains
+europeennes2024	LDVD	Liste divers droite
+europeennes2024	LRN	Liste du Rassemblement National
+europeennes2024	LREC	Liste Reconquête !
+europeennes2024	LEXD	Liste d'extrême droite
+legislatives-2022	DXG	Divers extrême gauche
+legislatives-2022	RDG	Parti radical de gauche
+legislatives-2022	NUP	Nouvelle union populaire écologique et sociale
+legislatives-2022	DVG	Divers gauche
+legislatives-2022	ECO	Ecologistes
+legislatives-2022	DIV	Divers
+legislatives-2022	REG	Régionaliste
+legislatives-2022	ENS	Ensemble ! (Majorité présidentielle)
+legislatives-2022	DVC	Divers centre
+legislatives-2022	UDI	Union des Démocrates et des Indépendants
+legislatives-2022	LR	Les Républicains
+legislatives-2022	DVD	Divers droite
+legislatives-2022	DSV	Droite souverainiste
+legislatives-2022	REC	Reconquête !
+legislatives-2022	RN	Rassemblement National
+legislatives-2022	DXD	Divers extrême droite
+legislatives-2017	EXG	Extrême gauche
+legislatives-2017	COM	Parti communiste français
+legislatives-2017	FI	La France insoumise
+legislatives-2017	SOC	Parti socialiste
+legislatives-2017	RDG	Parti radical de gauche
+legislatives-2017	DVG	Divers gauche
+legislatives-2017	ECO	Ecologiste
+legislatives-2017	DIV	Divers
+legislatives-2017	REG	Régionaliste
+legislatives-2017	REM	La République en marche
+legislatives-2017	MDM	Modem
+legislatives-2017	UDI	Union des Démocrates et Indépendants
+legislatives-2017	LR	Les Républicains
+legislatives-2017	DVD	Divers droite
+legislatives-2017	DLF	Debout la France
+legislatives-2017	FN	Front National
+legislatives-2017	EXD	Extrême droite
+LG2012	EXG	Extrême gauche
+LG2012	FG	Front de gauche
+LG2012	SOC	Socialiste
+LG2012	RDG	Radical de Gauche
+LG2012	DVG	Divers gauche
+LG2012	VEC	Europe-Ecologie-Les Verts
+LG2012	REG	Régionaliste
+LG2012	ECO	Ecologiste
+LG2012	AUT	Autres
+LG2012	CEN	Le Centre pour la France
+LG2012	ALLI	Alliance centriste
+LG2012	PRV	Parti radical
+LG2012	NCE	Nouveau Centre
+LG2012	UMP	Union pour un Mouvement Populaire
+LG2012	DVD	Divers droite
+LG2012	FN	Front National
+LG2012	EXD	Extrême droite
+senatoriales-2020	LEXG	Liste d'extrême gauche
+senatoriales-2020	LCOM	Liste Parti communiste français
+senatoriales-2020	LFI	Liste La France insoumise
+senatoriales-2020	LSOC	Liste Parti Socialiste
+senatoriales-2020	LVEC	Liste Europe écologie les Verts
+senatoriales-2020	LUG	Liste d'union de la gauche
+senatoriales-2020	LDVG	Liste divers gauche
+senatoriales-2020	LREG	Liste régionaliste
+senatoriales-2020	LDIV	Liste Divers
+senatoriales-2020	LREM	Liste La République en marche
+senatoriales-2020	LMDM	Liste du Mouvement démocrate
+senatoriales-2020	LUC	Liste d'union du centre
+senatoriales-2020	LDVC	Liste divers centre
+senatoriales-2020	LUDI	Liste Union des Démocrates et Indépendants
+senatoriales-2020	LLR	Liste Les Républicains
+senatoriales-2020	LDLF	Liste Debout la France
+senatoriales-2020	LUD	Liste d'union de la droite
+senatoriales-2020	LDVD	Liste divers droite
+senatoriales-2020	LRN	Liste Rassemblement National
+senatoriales-2020	LUXD	Liste d'union de l'extrême-droite
+senatoriales-2020	LEXD	Extrême droite
+senatoriales-2020	EXG	Extrême gauche
+senatoriales-2020	COM	Parti communiste français
+senatoriales-2020	FI	La France insoumise
+senatoriales-2020	SOC	Parti socialiste
+senatoriales-2020	RDG	Parti radical de gauche
+senatoriales-2020	VEC	Europe Ecologie-Les Verts
+senatoriales-2020	DVG	Divers gauche
+senatoriales-2020	REG	Régionaliste
+senatoriales-2020	ECO	Ecologiste
+senatoriales-2020	DIV	Divers
+senatoriales-2020	REM	La République en marche
+senatoriales-2020	MDM	Modem
+senatoriales-2020	DVC	Divers centre
+senatoriales-2020	UDI	Union des Démocrates et Indépendants
+senatoriales-2020	LR	Les Républicains
+senatoriales-2020	DLF	Debout la France
+senatoriales-2020	DVD	Divers droite
+senatoriales-2020	RN	Rassemblement National
+senatoriales-2020	EXD	Extrême droite
+senatoriales-2017	LEXG	Liste d'extrême gauche
+senatoriales-2017	LCOM	Liste du Parti communiste français
+senatoriales-2017	LFI	Liste de la France insoumise
+senatoriales-2017	LSOC	Liste du Parti Socialiste
+senatoriales-2017	LDVG	Liste Divers gauche
+senatoriales-2017	LUG	Liste d'union de la gauche
+senatoriales-2017	LECO	Liste Ecologiste
+senatoriales-2017	LREG	Liste Régionaliste
+senatoriales-2017	LDIV	Autre liste
+senatoriales-2017	LREM	La République en marche
+senatoriales-2017	LMDM	Mouvement démocrate
+senatoriales-2017	LMP	Majorité présidentielle
+senatoriales-2017	LUDI	Union des Démocrates et Indépendants
+senatoriales-2017	LLR	Les Républicains
+senatoriales-2017	LDVD	Divers droite
+senatoriales-2017	LUD	Liste d'union de la droite
+senatoriales-2017	LDLF	Debout la France
+senatoriales-2017	LFN	Front National
+senatoriales-2017	LEXD	Extrême droite
+senatoriales-2017	EXG	Extrême gauche
+senatoriales-2017	COM	Parti communiste français
+senatoriales-2017	FI	La France insoumise
+senatoriales-2017	SOC	Parti socialiste
+senatoriales-2017	RDG	Radical de gauche
+senatoriales-2017	DVG	Divers gauche
+senatoriales-2017	ECO	Ecologiste
+senatoriales-2017	REG	Régionaliste
+senatoriales-2017	DIV	Divers
+senatoriales-2017	REM	La République en marche
+senatoriales-2017	MDM	Mouvement démocrate
+senatoriales-2017	UDI	Union des Démocrates et Indépendants
+senatoriales-2017	LR	Les Républicains
+senatoriales-2017	DVD	Divers droite
+senatoriales-2017	DLF	Debout la France
+senatoriales-2017	FN	Front National
+senatoriales-2017	EXD	Extrême droite
+regionales-2015	LEXG	Liste Extrême gauche
+regionales-2015	LFG	Liste du Front de Gauche
+regionales-2015	LPG	Liste du Parti de Gauche
+regionales-2015	LCOM	Liste du Parti communiste français
+regionales-2015	LVEG	Liste EELV et gauche
+regionales-2015	LSOC	Liste du Parti Socialiste
+regionales-2015	LUG	Liste Union de la Gauche
+regionales-2015	LRDG	Liste du Parti radical de gauche
+regionales-2015	LDVG	Liste Divers gauche
+regionales-2015	LVEC	Liste d'Europe-Ecologie-Les Verts
+regionales-2015	LECO	Liste Ecologiste
+regionales-2015	LDIV	Liste Divers
+regionales-2015	LREG	Liste Régionaliste
+regionales-2015	LMDM	Liste du Modem
+regionales-2015	LUDI	Liste Union Démocrates et Indépendants
+regionales-2015	LLR	Liste « Les Républicains »
+regionales-2015	LUD	Liste Union de la Droite
+regionales-2015	LDLF	Liste Debout la France
+regionales-2015	LDVD	Liste Divers droite
+regionales-2015	LFN	Liste Front National
+regionales-2015	LEXD	Liste Extrême droite
+regionales_2010	LEXG	Listes d'extrême gauche
+regionales_2010	LCOP	Listes du Parti Comm. et du Parti Gauche
+regionales_2010	LSOC	Listes du Parti Socialiste
+regionales_2010	LVEC	Listes des Verts
+regionales_2010	LDVG	Listes divers gauche
+regionales_2010	LUG	Listes d'Union de la gauche
+regionales_2010	LGMD	Listes Gauche-MoDem
+regionales_2010	LAUT	Autres listes
+regionales_2010	LREG	Listes régionalistes
+regionales_2010	LCMD	Listes Centre-MoDem
+regionales_2010	LMMD	Listes Majorité-MoDem
+regionales_2010	LMAJ	Listes de la majorité
+regionales_2010	LDVD	Listes divers droite
+regionales_2010	LFN	Listes du Front National
+regionales_2010	LEXD	Listes d'extrême droite
+regionales_2004	LXG	Listes d'extrême gauche
+regionales_2004	LGA	Listes de gauche
+regionales_2004	LVE	Listes des Verts
+regionales_2004	LDG	Listes divers gauche
+regionales_2004	LEC	Listes écologiste
+regionales_2004	LRG	Listes régionaliste
+regionales_2004	LCP	Listes Chasse,pêche,nature et traditions
+regionales_2004	LDV	Listes "divers"
+regionales_2004	LDR	Listes de droite
+regionales_2004	LDD	Listes divers droite
+regionales_2004	LFN	Listes du Front national
+regionales_2004	LXD	Listes d'extrême droite
+departementales-2021	BC-EXG	Binôme Extrême gauche
+departementales-2021	BC-COM	Binôme du Parti communiste français
+departementales-2021	BC-FI	Binôme de La France Insoumise
+departementales-2021	BC-SOC	Binôme du Parti Socialiste
+departementales-2021	BC-UG	Binôme Union à gauche
+departementales-2021	BC-RDG	Binôme du Parti radical de gauche
+departementales-2021	BC-DVG	Binôme Divers gauche
+departementales-2021	BC-ECO	Binôme écologiste
+departementales-2021	BC-UGE	Binôme d'union à gauche avec des écologistes
+departementales-2021	BC-DIV	Binôme Divers
+departementales-2021	BC-REG	Binôme Régionaliste
+departementales-2021	BC-GJ	Binôme gilets jaunes
+departementales-2021	BC-UCG	Binôme d'union au centre et à gauche
+departementales-2021	BC-REM	Binôme La République en Marche
+departementales-2021	BC-MDM	Binôme du Modem
+departementales-2021	BC-UC	Binôme Union au centre
+departementales-2021	BC-DVC	Binôme Divers centre
+departementales-2021	BC-UCD	Binôme d'union au centre et à droite
+departementales-2021	BC-UDI	Binôme de l'Union des Démocrates et des Indépendants
+departementales-2021	BC-LR	Binôme des Républicains
+departementales-2021	BC-UD	Binôme Union à droite
+departementales-2021	BC-DVD	Binôme Divers droite
+departementales-2021	BC-DSV	Binôme Droite souverainiste
+departementales-2021	BC-RN	Binôme Rassemblement National
+departementales-2021	BC-UXD	Binôme Union Extrême droite
+departementales-2021	BC-EXD	Binôme d'Extrême droite
+departementales-2015	BC-EXG	Binôme Extrême gauche
+departementales-2015	BC-FG	Binôme du Front de Gauche
+departementales-2015	BC-PG	Binôme du Parti de Gauche
+departementales-2015	BC-COM	Binôme du Parti communiste français
+departementales-2015	BC-SOC	Binôme du Parti Socialiste
+departementales-2015	BC-UG	Binôme Union de la Gauche
+departementales-2015	BC-RDG	Binôme du Parti radical de gauche
+departementales-2015	BC-DVG	Binôme Divers gauche
+departementales-2015	BC-VEC	Binôme d'Europe-Ecologie-Les Verts
+departementales-2015	BC-DIV	Binôme Divers
+departementales-2015	BC-MDM	Binôme du Modem
+departementales-2015	BC-UC	Binôme Union du Centre
+departementales-2015	BC-UDI	Binôme Union Démocrates et Indépendants
+departementales-2015	BC-UMP	Binôme Union pour un Mouvement Populaire
+departementales-2015	BC-UD	Binôme Union de la Droite
+departementales-2015	BC-DLF	Binôme Debout la France
+departementales-2015	BC-DVD	Binôme Divers droite
+departementales-2015	BC-FN	Binôme Front National
+departementales-2015	BC-EXD	Binôme Extrême droite
+municipales-2020	LEXG	Extrême gauche
+municipales-2020	LCOM	Parti communiste français
+municipales-2020	LFI	La France insoumise
+municipales-2020	LSOC	Parti socialiste
+municipales-2020	LRDG	Parti radical de gauche
+municipales-2020	LDVG	Divers gauche
+municipales-2020	LUG	Union de la gauche
+municipales-2020	LVEC	Europe Ecologie-Les Verts
+municipales-2020	LECO	Ecologiste
+municipales-2020	LDIV	Divers
+municipales-2020	LREG	Régionaliste
+municipales-2020	LGJ	Gilets jaunes
+municipales-2020	LREM	La République en marche
+municipales-2020	LMDM	Modem
+municipales-2020	LUDI	Union des Démocrates et Indépendants
+municipales-2020	LUC	Union du centre
+municipales-2020	LDVC	Divers centre
+municipales-2020	LLR	Les Républicains
+municipales-2020	LUD	Union de la droite
+municipales-2020	LDVD	Divers droite
+municipales-2020	LDLF	Debout la France
+municipales-2020	LRN	Rassemblement National
+municipales-2020	LEXD	Extrême droite
+municipales-2020	LNC	Non Communiqué
+MN2014	LEXG	Liste Extrême gauche
+MN2014	LFG	Liste Front de Gauche
+MN2014	LPG	Liste du Parti de Gauche
+MN2014	LCOM	Liste du Parti communiste français
+MN2014	LSOC	Liste Socialiste
+MN2014	LUG	Liste Union de la Gauche
+MN2014	LDVG	Liste Divers gauche
+MN2014	LVEC	Liste Europe-Ecologie-Les Verts
+MN2014	LDIV	Liste Divers
+MN2014	LMDM	Liste Modem
+MN2014	LUC	Liste Union du Centre
+MN2014	LUDI	Liste Union Démocrates et Indépendants
+MN2014	LUMP	Liste Union pour un Mouvement Populaire
+MN2014	LUD	Liste Union de la Droite
+MN2014	LDVD	Liste Divers droite
+MN2014	LFN	Liste Front National
+MN2014	LEXD	Liste Extrême droite
+municipales_2008	LEXG	Liste d’extrême gauche
+municipales_2008	LCOM	Liste du Parti Communiste
+municipales_2008	LUG	Liste d’union de la gauche
+municipales_2008	LSOC	Liste du Parti Socialiste
+municipales_2008	LVEC	Liste des Verts
+municipales_2008	LDVG	Liste divers gauche
+municipales_2008	LGC	Liste gauche-centristes
+municipales_2008	LAUT	Liste inclassable
+municipales_2008	LREG	Liste régionaliste
+municipales_2008	LCMD	Liste centre-MoDem
+municipales_2008	LMC	Liste majorité-centristes
+municipales_2008	LMAJ	Liste de la majorité
+municipales_2008	LDVD	Liste divers droite
+municipales_2008	LFN	Liste du Front National
+municipales_2008	LEXD	Liste d’extrême droite

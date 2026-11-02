@@ -77,11 +77,11 @@ if exist "%CODE%\.git" (
     "%GIT%" clone --depth 1 "%DEPOT%" "%CODE%"
 )
 if errorlevel 1 goto :echec
-if not exist "%ICI%appli\le_grand_depouillement.py" (
+if not exist "%ICI%appli\lancer.py" (
     if exist "%ICI%appli" rmdir "%ICI%appli" 2>nul
-    mklink /J "%ICI%appli" "%CODE%\BigData_IA\le_grand_depouillement" >nul
+    mklink /J "%ICI%appli" "%CODE%\appli" >nul
 )
-if not exist "%ICI%appli\le_grand_depouillement.py" (
+if not exist "%ICI%appli\lancer.py" (
     echo  Le dossier appli n'a pas pu etre cree.
     goto :echec
 )
@@ -107,15 +107,15 @@ echo     2 = utiliser les donnees deja disponibles, toutes pretes
 echo         (environ 900 Mo a telecharger, quelques minutes)
 choice /c 12 /n /m "  Tape 1 ou 2 : "
 if errorlevel 2 (
-    "%PYENV%" "%CODE%\installation\donnees_pretes.py"
+    "%PYENV%" "%CODE%\1_telechargement\donnees_pretes.py"
 ) else (
-    "%PYENV%" "%CODE%\installation\reconstruire.py"
+    "%PYENV%" "%CODE%\4_installation\reconstruire.py"
 )
 if errorlevel 1 goto :echec
 
 rem --- 5. toutes les photos et toutes les affiches, depuis leur source (long la 1re fois : environ 1 heure) ---
 echo  [5/5] Photos et affiches (depuis leur source d'origine, environ 1 heure la premiere fois)...
-"%PYENV%" "%CODE%\installation\images.py"
+"%PYENV%" "%CODE%\1_telechargement\images.py"
 if errorlevel 1 goto :echec
 
 rem --- le lanceur, dans ce dossier ---
@@ -124,7 +124,7 @@ rem --- le lanceur, dans ce dossier ---
     echo cd /d "%%~dp0appli"
     echo set "MPLCONFIGDIR=%%~dp0outils\tmp\matplotlib"
     echo set "PYTHONPYCACHEPREFIX=%%~dp0outils\tmp\pycache"
-    echo start "" "%%~dp0outils\env\Scripts\pythonw.exe" le_grand_depouillement.py
+    echo start "" "%%~dp0outils\env\Scripts\pythonw.exe" lancer.py
 )
 
 echo.

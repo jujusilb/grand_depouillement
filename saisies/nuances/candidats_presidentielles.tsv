@@ -1,0 +1,44 @@
+# Présidentielles 2002, 2007, 2012 : le ministère écrit dans la colonne « nuance » un code de CANDIDAT (CHIR, JOSP…).
+# Décision de Julien (2 novembre 2026) : on lui donne la nuance du parti qui le présentait.
+# Parti : Wikipédia, pages « Élection présidentielle française de 2002 / 2007 / 2012 » (liste des candidats) ;
+# nuance : le code de la grille du ministère pour ce parti à cette époque (mêmes codes que les législatives de l'année).
+# « à vérifier » : candidat sans grand parti, classement discutable.
+election	code	candidat	parti	nuance	remarque
+2002_pres	CHIR	Jacques Chirac	Rassemblement pour la République	RPR
+2002_pres	JOSP	Lionel Jospin	Parti socialiste	SOC
+2002_pres	LEPE	Jean-Marie Le Pen	Front national	FN
+2002_pres	BAYR	François Bayrou	Union pour la démocratie française	UDF
+2002_pres	LAGU	Arlette Laguiller	Lutte ouvrière	LO
+2002_pres	BESA	Olivier Besancenot	Ligue communiste révolutionnaire	LCR
+2002_pres	CHEV	Jean-Pierre Chevènement	Mouvement des citoyens (Pôle républicain)	MDC
+2002_pres	MAME	Noël Mamère	Les Verts	VEC
+2002_pres	HUE	Robert Hue	Parti communiste français	COM
+2002_pres	MADE	Alain Madelin	Démocratie libérale	DL
+2002_pres	SAIN	Jean Saint-Josse	Chasse, pêche, nature et traditions	CPNT
+2002_pres	TAUB	Christiane Taubira	Parti radical de gauche	PRG
+2002_pres	MEGR	Bruno Mégret	Mouvement national républicain	MNR
+2002_pres	LEPA	Corinne Lepage	Cap21	ECO	à vérifier (écologiste centriste)
+2002_pres	BOUT	Christine Boutin	Forum des républicains sociaux	DVD	à vérifier
+2002_pres	GLUC	Daniel Gluckstein	Parti des travailleurs	EXG
+2007_pres	SARK	Nicolas Sarkozy	Union pour un mouvement populaire	UMP
+2007_pres	ROYA	Ségolène Royal	Parti socialiste	SOC
+2007_pres	BAYR	François Bayrou	Union pour la démocratie française	UDF
+2007_pres	LEPE	Jean-Marie Le Pen	Front national	FN
+2007_pres	BESA	Olivier Besancenot	Ligue communiste révolutionnaire	LCR
+2007_pres	VILL	Philippe de Villiers	Mouvement pour la France	MPF
+2007_pres	BUFF	Marie-George Buffet	Parti communiste français	COM
+2007_pres	VOYN	Dominique Voynet	Les Verts	VEC
+2007_pres	LAGU	Arlette Laguiller	Lutte ouvrière	LO
+2007_pres	BOVE	José Bové	(sans parti, altermondialiste)	DVG	à vérifier
+2007_pres	NIHO	Frédéric Nihous	Chasse, pêche, nature et traditions	CPNT
+2007_pres	SCHI	Gérard Schivardi	Parti des travailleurs	EXG
+2012_pres	HOLL	François Hollande	Parti socialiste	SOC
+2012_pres	SARK	Nicolas Sarkozy	Union pour un mouvement populaire	UMP
+2012_pres	LEPE	Marine Le Pen	Front national	FN
+2012_pres	MELE	Jean-Luc Mélenchon	Front de gauche	FG
+2012_pres	BAYR	François Bayrou	Mouvement démocrate	MDM
+2012_pres	JOLY	Eva Joly	Europe Écologie Les Verts	VEC
+2012_pres	DUPO	Nicolas Dupont-Aignan	Debout la République	DLR
+2012_pres	POUT	Philippe Poutou	Nouveau Parti anticapitaliste	EXG
+2012_pres	ARTH	Nathalie Arthaud	Lutte ouvrière	EXG
+2012_pres	CHEM	Jacques Cheminade	Solidarité et progrès	DIV	à vérifier

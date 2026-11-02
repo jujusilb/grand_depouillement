@@ -1,0 +1,219 @@
+﻿code;explication;famille;utilisee;source
+gaullistes et droite;;droite;1281698;
+socialiste;;socialiste;1239888;
+centre;;centre / majorité;986607;
+communiste;;communiste;791846;
+radicaux;;divers gauche;759965;
+extrême gauche;;extrême gauche;424771;
+extrême droite;;extrême droite;379055;
+divers;;divers;332982;
+CPNT;;ruralité;276845;
+divers droite;;divers droite;270884;
+UDF;;centre / majorité;239715;
+écologiste;;écologiste;236251;
+centre droit;;centre droit;196870;
+LO;;extrême gauche;192476;
+LCR;;extrême gauche;176398;
+MPF;;souverainiste;149843;
+MNR;;extrême droite;148983;
+RPR;;droite;148025;
+LUGE;;union de la gauche;82133;
+PRG;;socialiste;76881;
+UDFD;;centre / majorité;71112;
+DL;;centre droit;70285;
+DLR;;souverainiste;67932;
+MDC;;socialiste;66303;
+souverainiste;;souverainiste;65190;
+LPS;;socialiste;64761;
+LUDF;;centre / majorité;64761;
+FRN;;extrême droite;63981;
+GAU;;union de la gauche;63737;
+DTE;;;63737;
+MNA;;divers;63737;
+LPC;;communiste;63292;
+PREP;;;41853;
+LUCD;;centre droit;38470;
+MAJ;;droite;13622;
+RPF;;souverainiste;10579;
+M-NC;;droite;10087;
+régionaliste;;régionaliste;9202;
+agrariens;;ruralité;6203;
+MODM;;centre / majorité;4601;
+PG;;communiste;4285;
+M;;droite;4026;
+divers gauche;;divers gauche;1375;
+FGDS;;socialiste;326;
+SFIO;;socialiste;326;
+UNR-UDT;;droite;325;
+UD5;;droite;322;
+UDR-RI;;droite;295;
+UDRURP;;droite;285;
+union de la gauche;;union de la gauche;261;
+UNR;;droite;258;
+CNI;;divers droite;226;
+PCF;;communiste;190;
+PS;;socialiste;187;
+PC;;communiste;160;
+MRP;;centre / majorité;147;
+RADSOC;;divers gauche;110;
+CENTDEM;;centre / majorité;95;
+MOD;;centre droit;90;
+DIVREF;;centre / majorité;82;
+CPDM;;centre / majorité;72;
+RIURP;;centre droit;69;
+RADCENT;;centre / majorité;61;
+RI;;centre droit;48;
+CDPURP;;centre / majorité;34;
+CRR;;centre / majorité;29;
+REFRAD;;centre / majorité;27;
+MRG;;socialiste;23;
+PSU;;extrême gauche;18;
+DIVURP;;droite;14;
+DIVGAULL;;droite;13;
+RADDROIT;;centre droit;10;
+UFD;;divers gauche;10;
+POUJ;;extrême droite;9;
+MRPVREP;;centre / majorité;7;
+INDVREP;;centre droit;7;
+DIVMAJ;;droite;6;
+RALLIE;;droite;6;
+DIVGAUL;;droite;6;
+SDC;;;6;
+RADUFD;;divers gauche;6;
+CDP;;centre / majorité;3;
+UDSRMIN;;centre / majorité;3;
+UDR;;droite;2;
+UDP;;;1;
+RDC;;;1;
+SCO;;;1;
+ALLREP;;centre / majorité;1;
+UOF;;;1;
+GEC;;écologiste;1;
+MR;;;0;
+GEN;;;0;
+AGR;;;0;
+GJ;;divers;0;
+LDIV;Liste Divers;divers;2063184;officielle
+LEXG;Liste d'extrême-gauche;extrême gauche;1132325;officielle
+DIV;Divers;divers;970785;officielle
+NC;Non communiqué;;894036;
+SOC;Parti socialiste;socialiste;845959;officielle
+EXG;Extrême gauche;extrême gauche;829679;officielle
+LDVD;Liste divers droite;divers droite;735647;officielle
+UMP;Union pour un Mouvement Populaire;droite;693450;officielle
+FN;Front National;extrême droite;669109;officielle
+LDV;"Listes ""divers""";divers;592410;officielle
+LFN;Front National;extrême droite;570648;officielle
+ECO;Ecologistes;écologiste;560935;officielle
+LDVG;Liste divers gauche;divers gauche;523560;officielle
+DVD;Divers droite;divers droite;517267;officielle
+VEC;Les Ecologistes;écologiste;492975;officielle
+LAUT;Autres listes;divers;485457;officielle
+LUG;Liste d'union à gauche;union de la gauche;483634;officielle
+COM;Parti communiste français;communiste;477273;officielle
+LVEC;Liste Les Ecologistes;écologiste;330506;officielle
+DVG;Divers gauche;divers gauche;304238;officielle
+LECO;Liste écologiste;écologiste;290043;officielle
+LRN;Liste du Rassemblement National;extrême droite;231398;officielle
+LMAJ;Listes de la majorité;droite;223674;officielle
+LEXD;Liste d'extrême droite;extrême droite;221733;officielle
+LUD;Liste d'union à droite;droite;219950;officielle
+RN;Rassemblement National;extrême droite;211358;officielle
+LR;Les Républicains;droite;197981;officielle
+LXG;Listes d'extrême gauche;extrême gauche;195470;officielle
+ENS;Ensemble ! (Majorité présidentielle);centre / majorité;192780;officielle
+LDD;Listes divers droite;divers droite;179072;officielle
+LDR;Listes de droite;droite;169837;officielle
+REG;Régionaliste;régionaliste;169509;officielle
+LUC;Liste d'union au centre;centre / majorité;155999;officielle
+LSOC;Liste du Parti socialiste;socialiste;152190;officielle
+LGA;Listes de gauche;union de la gauche;146592;officielle
+LUMP;Liste Union pour un Mouvement Populaire;droite;144141;officielle
+LCMD;Listes Centre-MoDem;centre droit;142866;officielle
+FG;Front de gauche;communiste;135464;officielle
+LLR;Liste des Républicains;droite;122620;officielle
+LCOP;Listes du Parti Comm. et du Parti Gauche;communiste;119370;officielle
+REM;La République en marche;centre / majorité;111617;officielle
+LFG;Liste du Front de Gauche;communiste;109639;officielle
+NUP;Nouvelle union populaire écologique et sociale;union de la gauche;107392;officielle
+REC;Reconquête !;reconquête;105535;officielle
+BC-FN;Binôme Front National;extrême droite;101801;officielle
+LREG;Liste régionaliste;régionaliste;101219;officielle
+LCOM;Liste du Parti communiste français;communiste;99521;officielle
+UG;Union de la gauche;union de la gauche;97281;officielle
+EXD;Extrême droite;extrême droite;96748;officielle
+LFI;Liste de La France insoumise;insoumis;96087;officielle
+LXD;Listes d'extrême droite;extrême droite;87594;officielle
+BC-UD;Binôme Union à droite;droite;85744;officielle
+DXG;Divers extrême gauche;extrême gauche;85052;officielle
+MDM;Modem;centre / majorité;83436;officielle
+LVE;Listes des Verts;écologiste;81590;officielle
+BC-DVD;Binôme Divers droite;divers droite;80375;officielle
+BC-RN;Binôme Rassemblement National;extrême droite;78101;officielle
+FI;La France insoumise;insoumis;73555;officielle
+LREC;Liste Reconquête !;reconquête;71367;officielle
+LENS;Liste Ensemble;centre / majorité;70111;officielle
+DSV;Droite souverainiste;souverainiste;69161;officielle
+LDLF;Debout la France;souverainiste;67417;officielle
+BC-DVG;Binôme Divers gauche;divers gauche;66375;officielle
+LCP;Listes Chasse,pêche,nature et traditions;ruralité;65969;officielle
+BC-SOC;Binôme du Parti Socialiste;socialiste;64277;officielle
+LDVC;Liste divers centre;divers centre;58806;officielle
+BC-UG;Binôme Union à gauche;union de la gauche;57144;officielle
+LEC;Listes écologiste;écologiste;51360;officielle
+AUT;Autres;divers;49058;officielle
+DLF;Debout la France;souverainiste;48237;officielle
+LDG;Listes divers gauche;divers gauche;48078;officielle
+RDG;Parti radical de gauche;socialiste;47111;officielle
+CEN;Le Centre pour la France;divers centre;38557;officielle
+LRG;Listes régionaliste;socialiste;36674;officielle
+DVC;Divers centre;divers centre;36094;officielle
+UDI;Union des Démocrates et Indépendants;centre droit;33756;officielle
+LDSV;Liste de droite souverainiste;souverainiste;32356;
+BC-UGE;Binôme d'union à gauche avec des écologistes;union de la gauche;31731;officielle
+BC-FG;Binôme du Front de Gauche;communiste;30066;officielle
+BC-DIV;Binôme Divers;divers;26413;officielle
+BC-UCD;Binôme d'union au centre et à droite;centre droit;25564;officielle
+LVEG;Liste EELV et gauche;écologiste;25248;officielle
+BC-UMP;Binôme Union pour un Mouvement Populaire;droite;23365;officielle
+LNC;Non Communiqué;;20277;officielle
+BC-COM;Binôme du Parti communiste français;communiste;18887;officielle
+BC-LR;Binôme des Républicains;droite;18156;officielle
+NCE;Nouveau Centre;centre droit;16647;officielle
+LREM;La République en marche;centre / majorité;16633;officielle
+BC-DVC;Binôme Divers centre;divers centre;16429;officielle
+UXD;Union de l'extrême droite;union extrême droite;14830;officielle
+BC-ECO;Binôme écologiste;écologiste;14377;officielle
+BC-VEC;Binôme d'Europe-Ecologie-Les Verts;écologiste;12327;officielle
+PRV;Parti radical;centre droit;12221;officielle
+LMDM;Liste Mouvement démocrate (MoDem);centre / majorité;7724;officielle
+BC-UDI;Binôme de l'Union des Démocrates et des Indépendants;centre droit;7453;officielle
+BC-UC;Binôme Union au centre;centre / majorité;6735;officielle
+BC-REM;Binôme La République en Marche;centre / majorité;6520;officielle
+LUDI;Liste de l'Union des Démocrates et des Indépendants;centre droit;6372;officielle
+ALLI;Alliance centriste;centre droit;6228;officielle
+BC-FI;Binôme de La France Insoumise;insoumis;5922;officielle
+BC-DLF;Binôme Debout la France;souverainiste;5289;officielle
+LMC;Liste majorité-centristes;centre / majorité;4532;officielle
+BC-EXG;Binôme Extrême gauche;extrême gauche;4374;officielle
+LUXD;Liste d'union à l'extrême-droite;union extrême droite;4228;officielle
+HOR;Horizons;centre / majorité;3184;officielle
+BC-MDM;Binôme du Modem;centre / majorité;2584;officielle
+BC-REG;Binôme Régionaliste;régionaliste;2524;officielle
+BC-RDG;Binôme du Parti radical de gauche;socialiste;2471;officielle
+LGC;Liste gauche-centristes;divers gauche;2418;officielle
+BC-UCG;Binôme d'union au centre et à gauche;union de la gauche;2354;officielle
+BC-DSV;Binôme Droite souverainiste;souverainiste;2151;officielle
+LPG;Liste du Parti de Gauche;communiste;1845;officielle
+DXD;Divers extrême droite;extrême droite;1658;officielle
+BC-EXD;Binôme d'Extrême droite;extrême droite;1562;officielle
+LRDG;Parti radical de gauche;socialiste;647;officielle
+LUDR;Liste d'union des droites pour la République;droite;416;
+BC-PG;Binôme du Parti de Gauche;communiste;375;officielle
+LHOR;Liste Horizons;centre / majorité;356;
+BC-UXD;Binôme Union Extrême droite;union extrême droite;338;officielle
+LGJ;Gilets jaunes;divers;235;officielle
+BC-GJ;Binôme gilets jaunes;divers;196;officielle
+LREN;Liste Renaissance;centre / majorité;39;
+REN;Renaissance;centre / majorité;10;officielle
+LMP;Majorité présidentielle;centre / majorité;5;officielle

@@ -1,28 +1,7 @@
-# les données : retéléchargées et refabriquées par installation/reconstruire.py
-ELECTION/
-BRUT/
-DECHET/
-BigData_IA/data/raw/
-BigData_IA/parquets/data/
-BigData_IA/design_appli/donnees_insee/
-BigData_IA/design_appli/pistes/geo_data.js
-BigData_IA/demo_carte/donnees/
-BigData_IA/demo_carte/cache/
-BigData_IA/demo_carte/data/
-BigData_IA/le_grand_depouillement/data/
-*.parquet
-*.duckdb
-*.duckdb.wal
-*.partiel
+# les données : retéléchargées et refabriquées (4_installation/reconstruire.py) — voir chemins.py
+donnees/
 __pycache__/
-# l'installation de la maman (INSTALLMOI.bat à côté du dépôt)
-app/
-env/
-tmp/
+*.partiel
+# l'installation chez quelqu'un (INSTALLMOI.bat à côté du dossier outils/)
+outils/
 LANCER_L_APPLI.bat
-# les produits du contexte (refabriqués)
-BigData_IA/donnees_contexte/*/brut/
-BigData_IA/donnees_contexte/*/parquet/
-BigData_IA/donnees_contexte/economie/brut/
-BigData_IA/data/tri/
-BigData_IA/data/tri_parquet/
